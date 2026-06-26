@@ -3,7 +3,7 @@ const path = require('path');
 
 const srcDir = path.join(__dirname, 'src');
 const publicDir = path.join(__dirname, 'public');
-const distDir = path.join(__dirname, 'dist');
+const distDir = __dirname;
 
 // Ensure dist directory exists
 if (!fs.existsSync(distDir)) {
@@ -28,7 +28,7 @@ function copyDir(src, dest) {
   }
 }
 copyDir(publicDir, distDir);
-console.log('✓ Copied public assets to dist/');
+console.log('✓ Copied public assets to root/');
 
 // Helper to parse Astro file
 function parseAstro(filePath) {
@@ -170,8 +170,8 @@ if (fs.existsSync(pagesDir)) {
     const outputFileName = pageFile.replace('.astro', '.html');
     const outputPath = path.join(distDir, outputFileName);
     fs.writeFileSync(outputPath, outputHtml);
-    console.log(`✓ Generated dist/${outputFileName}`);
+    console.log(`✓ Generated root/${outputFileName}`);
   }
 }
 
-console.log('\n✨ Build succeeded! Output in dist/');
+console.log('\n✨ Build succeeded! Output in root/');
