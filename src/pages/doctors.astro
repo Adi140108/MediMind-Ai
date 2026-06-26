@@ -717,6 +717,31 @@ import Footer from '../components/Footer.astro';
     .filter-pills-row {
       overflow-x: auto;
       padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-pills-row::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .doctors-page-header h1 {
+      font-size: 1.4rem;
+    }
+
+    .doctor-card {
+      padding: var(--space-md);
+    }
+
+    .slot-btn {
+      padding: 6px 10px;
+      font-size: 0.7rem;
+    }
+
+    .booking-modal-card {
+      width: 95%;
+      padding: var(--space-md);
     }
   }
 </style>

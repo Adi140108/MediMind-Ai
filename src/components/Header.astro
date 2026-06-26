@@ -22,10 +22,43 @@ const base = import.meta.env.BASE_URL;
       <a href={`${base}records/`} class="nav-link" id="nav-records">Secure Records</a>
     </nav>
 
-    <!-- Active Engine Status Badge -->
-    <div class="engine-status">
+    <!-- Active Engine Status Badge (desktop) -->
+    <div class="engine-status desktop-only">
       <span class="status-dot"></span>
       <span class="caption-mono font-xs status-text">Clinical AI Engine: Active</span>
+    </div>
+
+    <!-- Mobile Hamburger Button -->
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Slide-out Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-inner">
+      <a href={`${base}`} class="mobile-nav-link" id="mob-nav-symptom">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Symptom Checker
+      </a>
+      <a href={`${base}dashboard/`} class="mobile-nav-link" id="mob-nav-dashboard">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Vitals Dashboard
+      </a>
+      <a href={`${base}doctors/`} class="mobile-nav-link" id="mob-nav-doctors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+        Specialist Booking
+      </a>
+      <a href={`${base}records/`} class="mobile-nav-link" id="mob-nav-records">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Secure Records
+      </a>
+      <div class="mobile-engine-status">
+        <span class="status-dot"></span>
+        <span class="caption-mono font-xs status-text">Clinical AI Engine: Active</span>
+      </div>
     </div>
   </div>
 </header>
@@ -155,10 +188,135 @@ const base = import.meta.env.BASE_URL;
     100% { transform: scale(0.85); opacity: 0.6; }
   }
 
-  /* Collapsing response */
+  /* ===== Hamburger Button ===== */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.2s;
+    z-index: 110;
+  }
+
+  .hamburger:hover {
+    background-color: rgba(37, 99, 235, 0.06);
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: var(--color-ink);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .hamburger.open .hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .hamburger.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.open .hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ===== Mobile Menu ===== */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 99;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .mobile-menu.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .mobile-menu-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 20px 24px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: var(--color-body);
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+  }
+
+  .mobile-nav-link:hover,
+  .mobile-nav-link.active {
+    background-color: rgba(37, 99, 235, 0.06);
+    color: var(--color-primary);
+  }
+
+  .mobile-nav-link.active {
+    font-weight: 600;
+    background-color: rgba(37, 99, 235, 0.1);
+  }
+
+  .mobile-nav-link svg {
+    flex-shrink: 0;
+    color: var(--color-mute);
+  }
+
+  .mobile-nav-link:hover svg,
+  .mobile-nav-link.active svg {
+    color: var(--color-primary);
+  }
+
+  .mobile-engine-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 14px 16px;
+    margin-top: 12px;
+    border-top: 1px solid var(--color-canvas-soft-2);
+  }
+
+  /* ===== Responsive ===== */
   @media (max-width: 768px) {
     .nav-desktop {
-      display: none; /* In micro site we hide nav on mobile for clean flex layout */
+      display: none;
+    }
+    .desktop-only {
+      display: none;
+    }
+    .hamburger {
+      display: flex;
+    }
+    .mobile-menu {
+      display: block;
     }
   }
 </style>
@@ -172,14 +330,41 @@ const base = import.meta.env.BASE_URL;
   const doctorsLink = document.getElementById('nav-doctors');
   const recordsLink = document.getElementById('nav-records');
 
+  const mobSymptom = document.getElementById('mob-nav-symptom');
+  const mobDashboard = document.getElementById('mob-nav-dashboard');
+  const mobDoctors = document.getElementById('mob-nav-doctors');
+  const mobRecords = document.getElementById('mob-nav-records');
+
   if (path.includes('/dashboard')) {
     dashboardLink?.classList.add('active');
+    mobDashboard?.classList.add('active');
   } else if (path.includes('/doctors')) {
     doctorsLink?.classList.add('active');
+    mobDoctors?.classList.add('active');
   } else if (path.includes('/records')) {
     recordsLink?.classList.add('active');
+    mobRecords?.classList.add('active');
   } else {
     symptomLink?.classList.add('active');
+    mobSymptom?.classList.add('active');
   }
-</script>
 
+  // Hamburger toggle
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburgerBtn?.addEventListener('click', () => {
+    hamburgerBtn.classList.toggle('open');
+    mobileMenu?.classList.toggle('open');
+    document.body.style.overflow = mobileMenu?.classList.contains('open') ? 'hidden' : '';
+  });
+
+  // Close menu when a link is clicked
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburgerBtn?.classList.remove('open');
+      mobileMenu?.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+</script>

@@ -393,3 +393,70 @@ textarea.form-control {
   display: none !important;
 }
 
+/* ===== Global Mobile Responsive ===== */
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  .section {
+    padding: var(--space-2xl) 0;
+  }
+
+  .section-lg {
+    padding: var(--space-3xl) 0;
+  }
+
+  h1 {
+    font-size: 2rem;
+    line-height: 1.15;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+  }
+
+  .btn-lg {
+    padding: 12px 22px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .section {
+    padding: var(--space-xl) 0;
+  }
+
+  h1 {
+    font-size: 1.65rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  /* Ensure tables scroll horizontally */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Make all images responsive */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
