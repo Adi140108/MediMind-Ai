@@ -1,13 +1,14 @@
 ---
 // Multi-page Clinical Header component
+const base = import.meta.env.BASE_URL;
 ---
 
 <header class="header sticky-nav">
   <div class="container nav-container">
     <!-- Brand Logo -->
-    <a href="index.html" class="logo">
+    <a href={`${base}`} class="logo">
       <div class="logo-icon">
-        <img src="logo.png" alt="MediMind AI Logo" style="width: 100%; height: 100%; object-fit: contain;" />
+        <img src={`${base}logo.png`} alt="MediMind AI Logo" style="width: 100%; height: 100%; object-fit: contain;" />
         <span class="logo-pulse"></span>
       </div>
       <span class="logo-text">MediMind <span class="text-teal">AI</span></span>
@@ -15,10 +16,10 @@
 
     <!-- Navigation links for all pages -->
     <nav class="nav-desktop">
-      <a href="index.html" class="nav-link" id="nav-symptom">Symptom Checker</a>
-      <a href="dashboard.html" class="nav-link" id="nav-dashboard">Vitals Dashboard</a>
-      <a href="doctors.html" class="nav-link" id="nav-doctors">Specialist Booking</a>
-      <a href="records.html" class="nav-link" id="nav-records">Secure Records</a>
+      <a href={`${base}`} class="nav-link" id="nav-symptom">Symptom Checker</a>
+      <a href={`${base}dashboard/`} class="nav-link" id="nav-dashboard">Vitals Dashboard</a>
+      <a href={`${base}doctors/`} class="nav-link" id="nav-doctors">Specialist Booking</a>
+      <a href={`${base}records/`} class="nav-link" id="nav-records">Secure Records</a>
     </nav>
 
     <!-- Active Engine Status Badge -->
@@ -165,20 +166,20 @@
 <script>
   // Dynamic navigation link highlight based on window.location path
   const path = window.location.pathname;
-  const page = path.split("/").pop();
 
   const symptomLink = document.getElementById('nav-symptom');
   const dashboardLink = document.getElementById('nav-dashboard');
   const doctorsLink = document.getElementById('nav-doctors');
   const recordsLink = document.getElementById('nav-records');
 
-  if (page === 'dashboard.html') {
+  if (path.includes('/dashboard')) {
     dashboardLink?.classList.add('active');
-  } else if (page === 'doctors.html') {
+  } else if (path.includes('/doctors')) {
     doctorsLink?.classList.add('active');
-  } else if (page === 'records.html') {
+  } else if (path.includes('/records')) {
     recordsLink?.classList.add('active');
   } else {
     symptomLink?.classList.add('active');
   }
 </script>
+

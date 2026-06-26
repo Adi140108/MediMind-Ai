@@ -1,5 +1,6 @@
 ---
 // Hero.astro
+const base = import.meta.env.BASE_URL;
 ---
 
 <section class="hero-section">
@@ -28,7 +29,7 @@
 
       <!-- CTA buttons -->
       <div class="hero-ctas">
-        <a href="dashboard.html" class="btn btn-lg btn-primary">
+        <a href={`${base}dashboard/`} class="btn btn-lg btn-primary">
           Get Started
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -71,7 +72,7 @@
         <div class="mockup-frame">
           <div class="mockup-screen">
             <img 
-              src="ai-doctor-dashboard.png" 
+              src={`${base}ai-doctor-dashboard.png`} 
               alt="MediMind AI Doctor dashboard mockup showing heart-rate pulse graphs and medication reminders" 
               class="hero-img"
               loading="eager"
