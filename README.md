@@ -1,82 +1,140 @@
-# 🧠 MediMind AI — Intelligent Health Companion
+<p align="center">
+  <img src="public/logo.png" alt="MediMind AI Logo" width="80" />
+</p>
 
-MediMind AI is a high-fidelity, premium, responsive multi-page clinical wellness suite built to assist patients with local AI-powered symptom analysis, secure medical records extraction, vitals logging, and specialist consultations.
+<h1 align="center">MediMind AI</h1>
 
-The project features a sleek, Vercel-inspired glassmorphic interface styled with custom vanilla CSS design tokens, dynamic micro-interactions, and a client-side database model powered by `sessionStorage`.
+<p align="center">
+  <strong>Your Intelligent Health Companion — Powered by AI</strong>
+</p>
+
+<p align="center">
+  <a href="https://adi140108.github.io/MediMind-Ai/">🌐 Live Demo</a> &nbsp;·&nbsp;
+  <a href="#features">✨ Features</a> &nbsp;·&nbsp;
+  <a href="#tech-stack">🛠️ Tech Stack</a> &nbsp;·&nbsp;
+  <a href="#getting-started">🚀 Getting Started</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Astro-6.x-FF5D01?style=flat-square&logo=astro&logoColor=white" alt="Astro" />
+  <img src="https://img.shields.io/badge/CSS-Vanilla-1572B6?style=flat-square&logo=css3&logoColor=white" alt="CSS" />
+  <img src="https://img.shields.io/badge/Deploy-GitHub%20Pages-222?style=flat-square&logo=github&logoColor=white" alt="Deploy" />
+  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License" />
+</p>
+
+---
+
+## 🖼️ Preview
+
+<p align="center">
+  <img src="public/ai-doctor-dashboard.png" alt="MediMind AI Dashboard Preview" width="700" style="border-radius: 12px;" />
+</p>
 
 ---
 
 ## ✨ Features
 
-### 1. 🔍 Live Symptom Checker & Advice
-* **Dynamic Search**: Input symptoms (e.g. headache, fever, cough) to fetch instant AI clinical assessment advice.
-* **Clinical Advice Card**: Displays diagnostic summaries, severity indicators, primary recommendations, and OTC medication schedules.
-* **Responsive Layouts**: Designed to load advice panels only after a search is executed, eliminating layout leaks.
+### 🔍 AI Symptom Checker
+- Search symptoms (headache, fever, cough) for instant AI clinical assessment
+- Displays severity indicators, recommendations, and OTC medication guidance
+- Responsive advice panels that only render after search
 
-### 2. 📊 Vitals Dashboard & Manual Logger
-* **Vitals Indicators**: High-fidelity cards tracking Heart Rate (BPM), Blood Pressure (mmHg), Blood Sugar (mg/dL), and Blood Oxygen (SpO2 %).
-* **Log Vitals Modal**: Supports dual-mode vitals ingestion:
-  * **Manual Logging Form**: Enter new numbers to recalculate ranges, update indicators, evaluate clinical assessments, and log history.
-  * **File Ingestion**: Drag & drop CSV or JSON files (from smartwatches or clinical exports) to simulate log parsing.
-* **Static Baseline Vitals**: Automatic drift generators are disabled to ensure all numbers reflect exact, unadulterated patient uploads.
+### 📊 Vitals Dashboard
+- Track **Heart Rate**, **Blood Pressure**, **Blood Sugar**, and **SpO₂** with visual indicators
+- **Manual Logging** — enter readings to update indicators, recalculate ranges, and log history
+- All vitals reflect exact patient inputs — no artificial drift
 
-### 3. 📅 Specialist Booking Portal
-* **Physician Grid**: Interactive profiles detailing experience, ratings, and active schedules.
-* **Category Filters**: Instant category selection (Pulmonology, Cardiology, Neurology, Endocrinology) alongside a client-side search bar.
-* **E2E Ticket Generation**: Select active consultation slots, review safety declarations, and generate tickets containing reference codes (e.g. `Ref: MM-TX-10934`).
+### 📅 Specialist Booking
+- Interactive physician profiles with experience, ratings, and schedules
+- Category filters: Pulmonology, Cardiology, Neurology, Endocrinology
+- End-to-end ticket generation with reference codes (e.g. `Ref: MM-TX-10934`)
 
-### 4. 🔒 Secure Medical Records Vault
-* **Drag-and-Drop OCR Sandbox**: Ingest lab reports (PDF, JPG, PNG). Simulates a sandboxed decryption and extraction pipeline.
-* **Interactive Biometrics**: Linked list-inspector. Clicking ingested reports dynamically updates the biometrics table (Hemoglobin, WBC, TSH, Cholesterol).
-* **Document Inspector**: Double-click archive files to launch modal previews showing raw extracted OCR logs, meta-stamps, and deletion controls.
-* **AI Health Synthesis**: Aggregate medical logs to generate a comprehensive AI summary complete with progress scores (94%), clinical action items, and secure sharing utilities.
+### 🔒 Secure Medical Records
+- **Drag & Drop** lab reports (PDF, JPG, PNG) into a simulated OCR extraction sandbox
+- Clickable reports dynamically update the biometrics table (Hemoglobin, WBC, TSH, Cholesterol)
+- AI Health Synthesis — generates comprehensive summaries with progress scores and action items
 
 ---
 
-## 🛠️ Architecture & Tech Stack
+## 🛠️ Tech Stack
 
-* **Front-end Structure**: [Astro](https://astro.build/) framework templates for component modularity.
-* **Branding & Assets**: Custom logo cropped to transparent PNG (`public/logo.png`) and transparent multi-resolution favicon (`public/favicon.ico`, `public/favicon.svg`).
-* **Design System**: Vanilla CSS utility classes, glassmorphism layouts, Inter/JetBrains fonts, and custom HSL variables declared in `src/styles/global.css`.
-* **State Management**: Zero database overhead—all appointment tickets, vault files, and vitals logs sync dynamically across pages via standard browser `sessionStorage`.
+| Layer | Technology |
+|-------|-----------|
+| **Framework** | [Astro](https://astro.build/) — Static site generation with component islands |
+| **Styling** | Vanilla CSS with custom design tokens, glassmorphism, HSL variables |
+| **Typography** | [Inter](https://fonts.google.com/specimen/Inter) + [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) |
+| **State** | Browser `sessionStorage` — zero database overhead |
+| **Deploy** | GitHub Actions → GitHub Pages |
 
 ---
 
-## 🚀 How to Run Locally
+## 🚀 Getting Started
 
-### 1. Install Dependencies
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) 18+ and npm
+
+### Install & Run
+
 ```bash
+# Clone the repository
+git clone https://github.com/Adi140108/MediMind-Ai.git
+cd MediMind-Ai
+
+# Install dependencies
 npm install
+
+# Start the dev server
+npm run dev
 ```
 
-### 2. Compile Astro Templates
-The project uses a custom compilation script (`compile-preview.cjs`) to compile page templates, inline headers/footers, purge TypeScript types, and output standard ES6 browser-compatible assets to `dist/`.
+Open [http://localhost:4321](http://localhost:4321) in your browser.
+
+### Build for Production
+
 ```bash
-node compile-preview.cjs
+npm run build
 ```
 
-### 3. Start Local Host server
-Serve the compiled files on a local server (default port: `3000`).
-```bash
-node serve-preview.cjs
-```
-Open [http://localhost:3000/](http://localhost:3000/) in your browser.
+Output is generated in the `dist/` directory.
 
 ---
 
-## 📁 Repository Layout
-```text
-/
-├── .agents/                 # Custom behavioral config & guidelines
-├── public/                  # Static assets (logo, icons, favicon)
-├── src/
-│   ├── assets/              # Default template graphics
-│   ├── components/          # Astro reusable elements (Header, Hero, Footer, etc.)
-│   ├── layouts/             # Astro Layout wrapper
-│   ├── pages/               # Page templates (index, dashboard, doctors, records)
-│   └── styles/              # global.css design system
-├── compile-preview.cjs      # Multi-page compiler script
-├── serve-preview.cjs        # Static HTTP local server script
-├── package.json             # Core scripts & node dependencies
-└── tsconfig.json            # Editor TypeScript support
+## 📁 Project Structure
+
 ```
+MediMind-Ai/
+├── .github/workflows/    # GitHub Actions CI/CD
+├── public/               # Static assets (logo, favicon, images)
+├── src/
+│   ├── components/       # Reusable Astro components
+│   │   ├── Header.astro
+│   │   ├── Hero.astro
+│   │   ├── Features.astro
+│   │   ├── LiveChecker.astro
+│   │   ├── Footer.astro
+│   │   └── ...
+│   ├── layouts/          # Page layout wrapper
+│   ├── pages/            # Route pages
+│   │   ├── index.astro       # Home — Symptom Checker
+│   │   ├── dashboard.astro   # Vitals Dashboard
+│   │   ├── doctors.astro     # Specialist Booking
+│   │   └── records.astro     # Medical Records Vault
+│   └── styles/
+│       └── global.css    # Design system & tokens
+├── astro.config.mjs      # Astro configuration
+├── package.json
+└── tsconfig.json
+```
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+<p align="center">
+  Built with ❤️ by <a href="https://github.com/Adi140108">Adithya</a>
+</p>

@@ -23,13 +23,32 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# AI agent config files
+# AI agent config files (all AI tools)
 .agents/
+.claude/
+.kilocode/
 AGENTS.md
 GEMINI.md
 CLAUDE.md
+DESIGN.md
 design.md
+skills-lock.json
 
-# dev-only scripts
+# dev-only preview scripts
+compile-preview.js
 compile-preview.cjs
+serve-preview.js
 serve-preview.cjs
+
+# compiled HTML files at root (output of compile-preview)
+/index.html
+/dashboard.html
+/doctors.html
+/records.html
+
+# static assets at root (duplicates of public/)
+/ai-doctor-dashboard.png
+/favicon.ico
+/favicon.svg
+/global.css
+/logo.png
