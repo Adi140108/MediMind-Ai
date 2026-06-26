@@ -1,0 +1,223 @@
+---
+// HowItWorks.astro
+---
+
+<section id="how-it-works" class="section section-lg how-it-works-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="caption-mono section-eyebrow">Onboarding Path</span>
+      <h2 class="display-lg section-title">Four steps to a smarter healthy life.</h2>
+      <p class="body-lg section-subtitle">
+        Getting started with MediMind AI is quick, easy, and entirely secure. Follow this simple journey to personalized care.
+      </p>
+    </div>
+
+    <!-- Timeline Grid container -->
+    <div class="timeline-container">
+      <div class="timeline-line"></div>
+
+      <div class="timeline-grid">
+        <!-- Step 1 -->
+        <div class="timeline-step">
+          <div class="step-badge-wrapper">
+            <div class="step-number-badge">01</div>
+          </div>
+          <div class="glass-card step-card">
+            <h3 class="step-title">Create your free account.</h3>
+            <p class="body-sm step-desc">
+              Sign up in seconds. No credit card required. Define your basic info and biometric settings securely.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="timeline-step">
+          <div class="step-badge-wrapper">
+            <div class="step-number-badge">02</div>
+          </div>
+          <div class="glass-card step-card">
+            <h3 class="step-title">Complete your health profile.</h3>
+            <p class="body-sm step-desc">
+              Input vital historical health data, log current medications, and link any active tracking wearables.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="timeline-step">
+          <div class="step-badge-wrapper">
+            <div class="step-number-badge">03</div>
+          </div>
+          <div class="glass-card step-card">
+            <h3 class="step-title">Use AI tools to monitor health.</h3>
+            <p class="body-sm step-desc">
+              Diagnose symptoms, review daily vitals analytics, check prescriptions, and chat with your AI medic.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="timeline-step">
+          <div class="step-badge-wrapper">
+            <div class="step-number-badge">04</div>
+          </div>
+          <div class="glass-card step-card">
+            <h3 class="step-title">Book appointments & recommendations.</h3>
+            <p class="body-sm step-desc">
+              Search local top-tier specialists, schedule digital consultations, and implement daily optimized routines.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .how-it-works-section {
+    background-color: var(--color-canvas-soft);
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+    position: relative;
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto var(--space-4xl) auto;
+  }
+
+  .section-eyebrow {
+    margin-bottom: var(--space-xs);
+    display: block;
+  }
+
+  .section-title {
+    margin-bottom: var(--space-md);
+  }
+
+  .section-subtitle {
+    color: var(--color-body);
+  }
+
+  .timeline-container {
+    position: relative;
+    padding: var(--space-xl) 0;
+  }
+
+  /* Horizontal line on desktop */
+  .timeline-line {
+    position: absolute;
+    top: 52px; /* Center of the badges */
+    left: 12%;
+    right: 12%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      rgba(37, 99, 235, 0.4) 0%, 
+      rgba(20, 184, 166, 0.4) 50%, 
+      rgba(37, 99, 235, 0.1) 100%
+    );
+    z-index: 1;
+  }
+
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+    position: relative;
+    z-index: 2;
+  }
+
+  .timeline-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .step-badge-wrapper {
+    background-color: var(--color-canvas-soft);
+    padding: 0 var(--space-sm);
+    margin-bottom: var(--space-lg);
+  }
+
+  .step-number-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--gradient-blue-teal);
+    color: white;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+      0 0 0 4px var(--color-canvas-soft),
+      0 4px 12px rgba(37, 99, 235, 0.15);
+  }
+
+  .step-card {
+    padding: var(--space-lg);
+    background-color: var(--color-canvas);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+    color: var(--color-ink);
+  }
+
+  .step-desc {
+    color: var(--color-body);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  /* Responsive styling */
+  @media (max-width: 959px) {
+    .timeline-line {
+      display: none; /* Hide line and stack vertically on smaller viewports */
+    }
+
+    .timeline-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .timeline-step {
+      flex-direction: row;
+      text-align: left;
+      align-items: flex-start;
+      gap: var(--space-md);
+    }
+
+    .step-badge-wrapper {
+      padding: 0;
+      margin-bottom: 0;
+    }
+
+    .step-card {
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .timeline-step {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--space-sm);
+    }
+
+    .step-card {
+      text-align: center;
+    }
+  }
+</style>

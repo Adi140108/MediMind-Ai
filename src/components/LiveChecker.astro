@@ -1,0 +1,908 @@
+---
+// LiveChecker.astro
+---
+
+<section id="live-checker" class="section section-lg live-checker-section">
+  <!-- Decorative background elements -->
+  <div class="lc-bg-glow"></div>
+  <div class="lc-bg-glow-2"></div>
+  
+  <div class="container">
+    <!-- Hero / Title Header -->
+    <div class="lc-main-header">
+      <h1 class="display-xl text-center main-title">Your intelligent AI health companion.</h1>
+      <p class="body-lg text-center main-subtitle">
+        Describe your symptoms in natural language to run an instant clinical diagnostic check. Get immediate Suspicion Analysis, OTC Medication Dosages, and Practical Cures.
+      </p>
+    </div>
+
+    <!-- Standalone Diagnostic App Console -->
+    <div class="lc-workspace glass-card">
+      <div class="lc-workspace-grid">
+        
+        <!-- Left Column: Input Panel -->
+        <div class="lc-input-pane">
+          <div class="lc-pane-header">
+            <h3 class="display-sm pane-title">Symptom Input Terminal</h3>
+            <span class="caption-mono font-xs label-teal">Encrypted Connection</span>
+          </div>
+
+          <!-- Presets -->
+          <div class="preset-box">
+            <span class="preset-title">Test standard cases (Click to load):</span>
+            <div class="preset-pills">
+              <button class="lc-preset-btn" data-text="I have a terrible headache, high fever of 101F, and a sore throat since yesterday.">Fever & Sore Throat</button>
+              <button class="lc-preset-btn" data-text="I feel chest tightness, pain radiating down my left arm, and sudden shortness of breath.">Chest Pain Emergency ⚠</button>
+              <button class="lc-preset-btn" data-text="I have severe acid reflux, stomach burning, and bloating after eating dinner.">Acid Reflux & Heartburn</button>
+              <button class="lc-preset-btn" data-text="I have a dry hacking cough, runny nose, slight congestion, and feel very tired.">Cold, Cough & Congestion</button>
+              <button class="lc-preset-btn" data-text="I feel nauseous, have stomach cramps, vomiting, and diarrhea.">Gastroenteritis symptoms</button>
+            </div>
+          </div>
+
+          <!-- Textarea Form -->
+          <div class="form-group">
+            <label for="lcSymptomsText" class="form-label font-bold">Describe your symptoms in detail:</label>
+            <div class="lc-textarea-container">
+              <textarea 
+                id="lcSymptomsText" 
+                class="form-control lc-textarea" 
+                placeholder="Example: 'I woke up with stomach cramps, a mild headache, and nausea. I feel very dehydrated...'"
+              ></textarea>
+              <div class="lc-scan-bar hide" id="lcScanBar"></div>
+            </div>
+          </div>
+
+          <div class="lc-buttons-row">
+            <button class="btn btn-primary btn-lg flex-1 justify-center" id="lcAnalyzeBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+              </svg>
+              Analyze Symptoms & Advise Cure
+            </button>
+            <button class="btn btn-secondary btn-lg" id="lcClearBtn">Clear</button>
+          </div>
+        </div>
+
+        <!-- Right Column: AI Report Panel -->
+        <div class="lc-report-pane">
+          <!-- Initial Placeholder state -->
+          <div class="report-placeholder" id="lcPlaceholder">
+            <div class="placeholder-icon">🩺</div>
+            <h4 class="placeholder-title">Awaiting Symptom Analysis</h4>
+            <p class="body-sm placeholder-text">
+              Type your description in the input box and click Analyze. The AI will output suspected conditions, medications, dosages, warnings, and home cures.
+            </p>
+          </div>
+
+          <!-- Loading state -->
+          <div class="report-loading hide" id="lcLoading">
+            <div class="lc-spinner"></div>
+            <h4 class="loader-title">Clinical Engine Mapping Vitals</h4>
+            <div class="loader-bars">
+              <div class="bar-progress"><div class="bar-fill" id="lBar"></div></div>
+              <span class="caption-mono font-xs" id="lText">Parsing terminology...</span>
+            </div>
+          </div>
+
+          <!-- Active Report State -->
+          <div class="report-active hide" id="lcActiveReport">
+            <!-- Header status row -->
+            <div class="ra-header">
+              <span class="badge" id="raUrgencyBadge">Urgency: Moderate</span>
+              <span class="caption-mono ra-match font-xs">Confidence: <strong id="raConfidence">85%</strong></span>
+            </div>
+
+            <!-- Suspected Conditions -->
+            <div class="ra-section ra-diagnosis">
+              <span class="caption-mono label-teal font-bold">Diagnostic Findings</span>
+              <h3 class="ra-title" id="raDiagnosisTitle">Acute Febrile Pharyngitis</h3>
+              <p class="body-sm ra-desc" id="raDiagnosisDesc">
+                Indications point towards inflammation of the pharynx accompanied by mild fever, characteristic of upper respiratory infections.
+              </p>
+            </div>
+
+            <!-- Recommended OTC Medicines -->
+            <div class="ra-section ra-medicines">
+              <span class="caption-mono label-blue font-bold">Recommended OTC Medications & Dosages</span>
+              <div class="meds-cards-container" id="raMedsContainer">
+                <!-- Med cards dynamically injected here -->
+              </div>
+            </div>
+
+            <!-- Home Cures & Advice -->
+            <div class="ra-section ra-cures">
+              <span class="caption-mono label-teal font-bold">Home Cures & Practical Remedies</span>
+              <ul class="cures-list" id="raCuresList">
+                <!-- Cures list items injected here -->
+              </ul>
+            </div>
+
+            <!-- Warnings -->
+            <div class="ra-warning-box" id="raWarningBox">
+              <div class="warning-icon">⚠</div>
+              <div class="warning-text">
+                <h5 class="warning-title">Safety Warning & Contraindications</h5>
+                <p class="caption" id="raWarningText">
+                  Do not exceed the daily recommended dosages. Avoid taking alcohol with paracetamol. Consult a doctor immediately if you experience breathing difficulty or symptoms worsen.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- How It Works Flow (Integrated at the bottom of application) -->
+    <div class="lc-how-it-works">
+      <h3 class="display-sm text-center hw-title">How the Clinical AI Engine Works</h3>
+      <div class="hw-grid">
+        <div class="hw-item">
+          <div class="hw-number">01</div>
+          <h4 class="hw-name">Biometric Symptom Input</h4>
+          <p class="body-sm text-slate">User types symptoms in natural language. No logins, accounts, or profiles required.</p>
+        </div>
+        <div class="hw-item">
+          <div class="hw-number">02</div>
+          <h4 class="hw-name">AI Keyword Mapping</h4>
+          <p class="body-sm text-slate">The clinical engine parses description keywords against verified medical diagnostic parameters.</p>
+        </div>
+        <div class="hw-item">
+          <div class="hw-number">03</div>
+          <h4 class="hw-name">Cure & Prescription Output</h4>
+          <p class="body-sm text-slate">Instantly compiles the preliminary suspected condition, OTC medication dosages, and action steps.</p>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<style>
+  .live-checker-section {
+    background-color: var(--color-canvas);
+    padding-top: 140px;
+    padding-bottom: var(--space-4xl);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lc-bg-glow {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 350px;
+    height: 350px;
+    background-color: rgba(37, 99, 235, 0.08);
+    filter: blur(120px);
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  .lc-bg-glow-2 {
+    position: absolute;
+    bottom: 10%;
+    right: -10%;
+    width: 350px;
+    height: 350px;
+    background-color: rgba(20, 184, 166, 0.08);
+    filter: blur(120px);
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  .lc-main-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--space-3xl) auto;
+  }
+
+  .main-title {
+    margin-bottom: var(--space-md);
+  }
+
+  .main-subtitle {
+    color: var(--color-body);
+  }
+
+  /* Workspace Card */
+  .lc-workspace {
+    background-color: var(--color-canvas);
+    padding: var(--space-xl);
+    box-shadow: 
+      0 1px 1px rgba(0, 0, 0, 0.02),
+      0 20px 40px -10px rgba(15, 23, 42, 0.05),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius-xl);
+    margin-bottom: var(--space-4xl);
+  }
+
+  .lc-workspace-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-2xl);
+    align-items: stretch;
+  }
+
+  /* Left Pane Input */
+  .lc-input-pane {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    text-align: left;
+  }
+
+  .lc-pane-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+    padding-bottom: var(--space-sm);
+  }
+
+  .pane-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  /* Preset box */
+  .preset-box {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .preset-title {
+    font-size: 0.75rem;
+    color: var(--color-mute);
+    font-weight: 500;
+  }
+
+  .preset-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .lc-preset-btn {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 6px 12px;
+    background-color: var(--color-canvas-soft);
+    border: 1px solid var(--color-canvas-soft-2);
+    color: var(--color-body);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+  }
+
+  .lc-preset-btn:hover {
+    background-color: rgba(20, 184, 166, 0.05);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .lc-textarea-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .lc-textarea {
+    width: 100%;
+    min-height: 160px;
+    font-size: 0.875rem;
+    resize: none;
+    line-height: 1.5;
+  }
+
+  .lc-scan-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-blue-teal);
+    box-shadow: 0 0 10px var(--color-accent);
+    z-index: 5;
+    animation: lcScan 2s linear infinite;
+  }
+
+  .lc-buttons-row {
+    display: flex;
+    gap: var(--space-sm);
+  }
+
+  /* Right Pane Report */
+  .lc-report-pane {
+    background-color: var(--color-canvas-soft);
+    border: 1px solid var(--color-canvas-soft-2);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 420px;
+    position: relative;
+  }
+
+  /* Placeholder state */
+  .report-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+  }
+
+  .placeholder-icon {
+    font-size: 2.5rem;
+    animation: pulse-soft 2s infinite;
+  }
+
+  .placeholder-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .placeholder-text {
+    color: var(--color-body);
+    max-width: 280px;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  /* Loading State */
+  .report-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-lg);
+    width: 100%;
+  }
+
+  .lc-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(20, 184, 166, 0.1);
+    border-top: 3px solid var(--color-accent);
+    border-radius: 50%;
+    animation: lcSpin 1s linear infinite;
+  }
+
+  .loader-bars {
+    width: 100%;
+    max-width: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .bar-progress {
+    width: 100%;
+    height: 4px;
+    background-color: var(--color-canvas-soft-2);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--gradient-blue-teal);
+    transition: width 0.1s ease;
+  }
+
+  /* Active Report State */
+  .report-active {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    animation: lcReportFade 0.3s ease-out;
+    width: 100%;
+    height: 100%;
+  }
+
+  .ra-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+    padding-bottom: var(--space-xs);
+  }
+
+  .ra-section {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .label-teal {
+    color: var(--color-accent);
+    display: block;
+  }
+
+  .label-blue {
+    color: var(--color-primary);
+    display: block;
+  }
+
+  .ra-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .ra-desc {
+    color: var(--color-body);
+    line-height: 1.45;
+  }
+
+  /* Med cards */
+  .meds-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-top: 4px;
+  }
+
+  .med-card-item {
+    background-color: var(--color-canvas);
+    border: 1px solid var(--color-canvas-soft-2);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .med-card-info {
+    text-align: left;
+  }
+
+  .med-card-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    display: block;
+  }
+
+  .med-card-purpose {
+    font-size: 0.7rem;
+    color: var(--color-body);
+  }
+
+  .med-card-dosage {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-accent);
+    background-color: rgba(20, 184, 166, 0.05);
+    padding: 3px 8px;
+    border-radius: var(--radius-xs);
+    border: 1px solid rgba(20, 184, 166, 0.1);
+  }
+
+  /* Cures List */
+  .cures-list {
+    padding-left: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .cures-list li {
+    font-size: 0.8rem;
+    color: var(--color-body);
+    line-height: 1.4;
+  }
+
+  /* Warning Box */
+  .ra-warning-box {
+    display: flex;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background-color: rgba(239, 68, 68, 0.03);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    border-radius: var(--radius-md);
+    text-align: left;
+    margin-top: auto;
+  }
+
+  .warning-icon {
+    font-size: 1.1rem;
+    color: #ef4444;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+
+  .warning-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .warning-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ef4444;
+  }
+
+  .warning-text p {
+    color: rgba(239, 68, 68, 0.85);
+    line-height: 1.4;
+  }
+
+  /* How It Works Section */
+  .lc-how-it-works {
+    border-top: 1px solid var(--color-canvas-soft-2);
+    padding-top: var(--space-3xl);
+  }
+
+  .hw-title {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .hw-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .hw-item {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .hw-number {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 600;
+    color: rgba(20, 184, 166, 0.2);
+    line-height: 1;
+  }
+
+  .hw-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  /* Loading Animations */
+  @keyframes lcScan {
+    0% { top: 0; }
+    50% { top: 100%; }
+    100% { top: 0; }
+  }
+
+  @keyframes lcSpin {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes lcReportFade {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Responsive styling */
+  @media (max-width: 959px) {
+    .lc-workspace-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+
+    .hw-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .lc-buttons-row {
+      flex-direction: column;
+    }
+    
+    .lc-workspace {
+      padding: var(--space-md);
+    }
+  }
+</style>
+
+<script>
+  // Symptom Diagnoser Data Engine
+  const lcSymptomsText = document.getElementById('lcSymptomsText');
+  const lcAnalyzeBtn = document.getElementById('lcAnalyzeBtn');
+  const lcClearBtn = document.getElementById('lcClearBtn');
+  const lcScanBar = document.getElementById('lcScanBar');
+
+  // Pane states
+  const lcPlaceholder = document.getElementById('lcPlaceholder');
+  const lcLoading = document.getElementById('lcLoading');
+  const lcActiveReport = document.getElementById('lcActiveReport');
+
+  // Loader components
+  const lBar = document.getElementById('lBar');
+  const lText = document.getElementById('lText');
+
+  // Report fields
+  const raUrgencyBadge = document.getElementById('raUrgencyBadge');
+  const raConfidence = document.getElementById('raConfidence');
+  const raDiagnosisTitle = document.getElementById('raDiagnosisTitle');
+  const raDiagnosisDesc = document.getElementById('raDiagnosisDesc');
+  const raMedsContainer = document.getElementById('raMedsContainer');
+  const raCuresList = document.getElementById('raCuresList');
+  const raWarningText = document.getElementById('raWarningText');
+  const raWarningBox = document.getElementById('raWarningBox');
+
+  // Presets mapping
+  const presetBtns = document.querySelectorAll('.lc-preset-btn');
+  presetBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.getAttribute('data-text') || '';
+      if (lcSymptomsText) {
+        lcSymptomsText.value = text;
+        lcSymptomsText.focus();
+      }
+    });
+  });
+
+  // Clear button click
+  if (lcClearBtn && lcSymptomsText) {
+    lcClearBtn.addEventListener('click', () => {
+      lcSymptomsText.value = '';
+      resetToPlaceholder();
+    });
+  }
+
+  function resetToPlaceholder() {
+    if (lcPlaceholder && lcLoading && lcActiveReport) {
+      lcPlaceholder.classList.remove('hide');
+      lcLoading.classList.add('hide');
+      lcActiveReport.classList.add('hide');
+    }
+  }
+
+  // Analyze button click
+  if (lcAnalyzeBtn && lcSymptomsText && lcPlaceholder && lcLoading && lcActiveReport) {
+    lcAnalyzeBtn.addEventListener('click', () => {
+      const text = lcSymptomsText.value.trim();
+      if (!text) {
+        lcSymptomsText.focus();
+        lcSymptomsText.placeholder = "Please write details of symptoms first!";
+        return;
+      }
+
+      // Show laser scanning line
+      if (lcScanBar) lcScanBar.classList.remove('hide');
+      lcAnalyzeBtn.setAttribute('disabled', 'true');
+
+      // Wait 800ms scanning animation
+      setTimeout(() => {
+        if (lcScanBar) lcScanBar.classList.add('hide');
+        lcAnalyzeBtn.removeAttribute('disabled');
+
+        // Swap to loading panel
+        lcPlaceholder.classList.add('hide');
+        lcActiveReport.classList.add('hide');
+        lcLoading.classList.remove('hide');
+
+        // Run loading sequencer
+        runLoadingProgress(text);
+      }, 800);
+    });
+  }
+
+  // Run progress bar simulation
+  function runLoadingProgress(symptomInput) {
+    if (!lBar || !lText || !lcLoading || !lcActiveReport) return;
+    
+    let progress = 0;
+    lBar.style.width = '0%';
+    lText.innerText = 'Initializing natural language processor...';
+
+    const steps = [
+      { prg: 20, txt: 'Parsing symptom terminology...' },
+      { prg: 50, txt: 'Cross-referencing medical databases...' },
+      { prg: 80, txt: 'Evaluating OTC drug matches & active dosages...' },
+      { prg: 100, txt: 'Compiling clinical report...' }
+    ];
+
+    const interval = setInterval(() => {
+      const step = steps.find(s => s.prg > progress);
+      if (step) {
+        progress += 4;
+        lBar.style.width = `${progress}%`;
+        lText.innerText = step.txt;
+      } else {
+        clearInterval(interval);
+        
+        // Load report and switch view
+        compileMedicalReport(symptomInput);
+        lcLoading.classList.add('hide');
+        lcActiveReport.classList.remove('hide');
+      }
+    }, 60);
+  }
+
+  // Clinical Diagnosis Engine
+  function compileMedicalReport(input) {
+    if (!raUrgencyBadge || !raConfidence || !raDiagnosisTitle || !raDiagnosisDesc || !raMedsContainer || !raCuresList || !raWarningText || !raWarningBox) return;
+
+    const query = input.toLowerCase();
+
+    // Default Report Profile
+    let urgency = "Moderate";
+    let urgencyClass = "urgency-moderate";
+    let confidence = "82%";
+    let title = "Non-Specific Viral Infection";
+    let desc = "Symptoms align with standard inflammatory response to a viral pathogen. Likely self-limiting infection of general origin.";
+    
+    let medicines = [
+      { name: "Acetaminophen (Paracetamol)", purpose: "Fever reducer & headache pain relief", dosage: "500mg, 1 tablet every 6 hours (Max 4/day)" },
+      { name: "Multivitamins (Zinc + Vitamin C)", purpose: "Support immune response activity", dosage: "1 tablet daily after food" }
+    ];
+
+    let cures = [
+      "Drink at least 2.5 to 3 Liters of warm fluids daily (water, broths).",
+      "Rest in bed; avoid physical strain for 48 hours.",
+      "Monitor temperature with a thermometer every 6 hours."
+    ];
+
+    let warning = "Do not exceed recommended dosages of Acetaminophen to prevent hepatic complications. Avoid mixing medications containing the same active compounds.";
+
+    // 1. Cardiovascular Emergency check
+    if (query.includes('chest') || query.includes('breath') || query.includes('arm') || query.includes('heart') || query.includes('tightness') || query.includes('squeez')) {
+      urgency = "High Emergency";
+      urgencyClass = "urgency-high";
+      confidence = "95%";
+      title = "Cardiopulmonary Stress Response";
+      desc = "Cardiovascular signals match. Reports of chest pressure, shortness of breath, or discomfort spreading to arms are critical emergency indicators requiring direct physical observation.";
+      
+      medicines = [
+        { name: "Aspirin (OTC)", purpose: "Blood thinner (Consult dispatchers immediately)", dosage: "325mg (chewable) if advised by medical crew" }
+      ];
+
+      cures = [
+        "**CALL EMERGENCY SERVICES (911/SOS) IMMEDIATELY.**",
+        "Stop all physical activities, sit down, and keep doors unlocked for paramedics.",
+        "Take slow, focused deep breaths to maximize ventilation."
+      ];
+
+      warning = "CRITICAL: Do not take Aspirin if you have active bleeding disorders, severe asthma, or known allergies. Emergency dispatch must guide any pharmacological ingestion.";
+    }
+    // 2. Fever & Headache (Influenza profile)
+    else if (query.includes('fever') || query.includes('headache') || query.includes('temperature') || query.includes('migraine') || query.includes('temp')) {
+      urgency = "Moderate";
+      urgencyClass = "urgency-moderate";
+      confidence = "89%";
+      title = "Influenza-like Febrile Illness";
+      desc = "Clinical profile matches febrile systemic reaction. High temperature coupled with severe headache points to viral influenza or local sinusitis.";
+      
+      medicines = [
+        { name: "Acetaminophen (Paracetamol)", purpose: "Reduce fever and ease cephalalgia", dosage: "500mg, 1-2 tablets every 6 hours as needed" },
+        { name: "Ibuprofen (Advil/Motrin)", purpose: "NSAID for anti-inflammatory relief", dosage: "400mg, 1 tablet with food every 8 hours" }
+      ];
+
+      cures = [
+        "Rest in a quiet, dark, ventilated room to relieve head pressure.",
+        "Apply cold damp compresses on the forehead or neck area.",
+        "Hydrate aggressively to replace body fluids lost from sweating."
+      ];
+
+      warning = "Ensure a minimum 6-hour gap between Acetaminophen doses. Take Ibuprofen with meals to protect gastric lining. Do not exceed limits.";
+    }
+    // 3. Cough & Cold (Coryza / Bronchitis profile)
+    else if (query.includes('cough') || query.includes('cold') || query.includes('nose') || query.includes('congestion') || query.includes('throat') || query.includes('sneeze')) {
+      urgency = "Low";
+      urgencyClass = "urgency-low";
+      confidence = "92%";
+      title = "Acute Nasopharyngitis (Common Cold)";
+      desc = "Symptoms align with standard viral rhinopharyngitis. Swollen nasal tissues, sneezing, and throat irritation indicate common cold path.";
+      
+      medicines = [
+        { name: "Dextromethorphan (Cough Syrup)", purpose: "Cough suppressant for throat dry tickle", dosage: "10ml, every 6-8 hours (Max 40ml/day)" },
+        { name: "Pseudoephedrine (Sudafed)", purpose: "Systemic decongestant to drain sinuses", dosage: "60mg, 1 tablet every 4-6 hours as needed" },
+        { name: "Sore Throat Lozenges (Menthol)", purpose: "Local anesthetic to soothe pharynx", dosage: "1 lozenge dissolved slowly every 2 hours" }
+      ];
+
+      cures = [
+        "Inhale steam from hot water or use a humidifying vaporizer.",
+        "Gargle with warm saline water (1/2 tsp salt in warm water) 3-4 times a day.",
+        "Stay hydrated to loosen sinus congestion."
+      ];
+
+      warning = "Avoid Pseudoephedrine if you have severe hypertension or cardiovascular history. Dextromethorphan can cause mild drowsiness.";
+    }
+    // 4. Acid Reflux & Bloating
+    else if (query.includes('reflux') || query.includes('burning') || query.includes('bloat') || query.includes('heartburn') || query.includes('acidity') || query.includes('stomach burn')) {
+      urgency = "Low";
+      urgencyClass = "urgency-low";
+      confidence = "90%";
+      title = "Gastroesophageal Reflux (Acid Indigestion)";
+      desc = "Stomach acid refluxing into esophagus causing localized burning (heartburn) and bloating due to gastric gas release.";
+      
+      medicines = [
+        { name: "Famotidine (Pepcid AC)", purpose: "H2-blocker to reduce gastric acid production", dosage: "20mg, 1 tablet 15-60 min before meals" },
+        { name: "Tums / Antacid Chews", purpose: "Neutralize stomach acid immediately on contact", dosage: "2-4 tablets chewed thoroughly as symptoms arise" },
+        { name: "Simethicone (Gas-X)", purpose: "Anti-foaming agent to break gas bubbles", dosage: "125mg, 1-2 softgels after meals" }
+      ];
+
+      cures = [
+        "Avoid lying down for at least 3 hours post ingestion.",
+        "Elevate head of bed by 6 inches during sleep.",
+        "Avoid triggers: caffeine, acidic juices, chocolate, spicy or greasy foods."
+      ];
+
+      warning = "Do not take Famotidine continuously for more than 14 days without consulting a doctor. Ensure Tums do not exceed maximum daily limits.";
+    }
+    // 5. Stomach Flu (Gastroenteritis profile)
+    else if (query.includes('nausea') || query.includes('vomit') || query.includes('diarrhea') || query.includes('stomach pain') || query.includes('cramp') || query.includes('belly')) {
+      urgency = "Moderate";
+      urgencyClass = "urgency-moderate";
+      confidence = "86%";
+      title = "Acute Gastroenteritis (Stomach Flu)";
+      desc = "Intestinal tract inflammation likely caused by viral pathogens (norovirus). Characterized by stomach spasms, severe cramps, fluid loss.";
+      
+      medicines = [
+        { name: "Loperamide (Imodium A-D)", purpose: "Anti-diarrheal to slow intestinal motility", dosage: "2mg softgels, 2 capsule after loose stool (Max 8mg/day)" },
+        { name: "Oral Rehydration Salts (ORS)", purpose: "Restore lost electrolytes and prevent critical dehydration", dosage: "1 packet dissolved in 1L clean water, sip slowly" }
+      ];
+
+      cures = [
+        "Sip liquids slowly in small amounts; do not gulp to prevent vomiting triggers.",
+        "Implement a strict BRAT diet (Bananas, Rice, Applesauce, Toast) once vomiting stops.",
+        "Monitor for dehydration signs: dry mouth, dark urine, or extreme dizziness."
+      ];
+
+      warning = "Do NOT take Loperamide if you have high fever, bloody stools, or suspected bacterial infection (e.g. food poisoning). Monitor for intense localized pain.";
+    }
+
+    // Set Urgency status
+    raUrgencyBadge.innerText = `Urgency: ${urgency}`;
+    raUrgencyBadge.className = `badge ${urgencyClass}`;
+    
+    // Set Confidence & Diagnosis
+    raConfidence.innerText = confidence;
+    raDiagnosisTitle.innerText = title;
+    raDiagnosisDesc.innerText = desc;
+
+    // Compile Medicine Cards
+    raMedsContainer.innerHTML = '';
+    medicines.forEach(med => {
+      const card = document.createElement('div');
+      card.className = "med-card-item";
+      card.innerHTML = `
+        <div class="med-card-info">
+          <span class="med-card-name">${med.name}</span>
+          <span class="med-card-purpose">${med.purpose}</span>
+        </div>
+        <span class="med-card-dosage">${med.dosage}</span>
+      `;
+      raMedsContainer.appendChild(card);
+    });
+
+    // Compile Cures
+    raCuresList.innerHTML = '';
+    cures.forEach(cure => {
+      const li = document.createElement('li');
+      li.innerText = cure;
+      raCuresList.appendChild(li);
+    });
+
+    // Compile Warning
+    raWarningText.innerText = warning;
+    if (urgency === "High Emergency") {
+      raWarningBox.style.backgroundColor = "rgba(239, 68, 68, 0.08)";
+      raWarningBox.style.borderColor = "rgba(239, 68, 68, 0.4)";
+    } else {
+      raWarningBox.style.backgroundColor = "rgba(239, 68, 68, 0.03)";
+      raWarningBox.style.borderColor = "rgba(239, 68, 68, 0.15)";
+    }
+  }
+</script>

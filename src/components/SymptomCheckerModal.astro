@@ -1,0 +1,712 @@
+---
+// SymptomCheckerModal.astro
+---
+
+<div class="modal-overlay hide" id="symptomModal">
+  <div class="glass-panel modal-container">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <div class="modal-title-group">
+        <div class="modal-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="modal-title">AI Symptom Checker</h3>
+          <span class="caption-mono font-xs">MediMind Clinical Engine v1.0</span>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="closeSymptomModal" aria-label="Close modal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+      <!-- Input Panel -->
+      <div class="symptom-input-panel" id="symptomInputPanel">
+        <p class="body-sm input-instructions">
+          Describe your symptoms in natural language. The clinical AI engine will analyze them against validated medical datasets.
+        </p>
+
+        <!-- Presets Row -->
+        <div class="presets-container">
+          <span class="presets-label">Click a preset to test:</span>
+          <div class="presets-list">
+            <button class="preset-btn" data-symptoms="headache, fever, sore throat">Migraine & Fever</button>
+            <button class="preset-btn" data-symptoms="chest pain, shortness of breath, left arm tightness">Chest Tightness ⚠</button>
+            <button class="preset-btn" data-symptoms="cough, congestion, runny nose, fatigue">Cough & Cold</button>
+            <button class="preset-btn" data-symptoms="stomach pain, nausea, localized right abdomen pain">Stomach Ache</button>
+          </div>
+        </div>
+
+        <!-- Input Textarea -->
+        <div class="form-group">
+          <label for="symptomText" class="form-label">Symptom Description</label>
+          <div class="textarea-wrapper">
+            <textarea id="symptomText" class="form-control symptom-textarea" placeholder="Example: Fever for 2 days, mild dry cough, throat pain..."></textarea>
+            <div class="scanning-bar hide" id="scanningBar"></div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary w-full justify-center" id="analyzeSymptomsBtn">
+          Analyze Symptoms
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Loading Panel -->
+      <div class="symptom-loading-panel hide" id="symptomLoadingPanel">
+        <div class="spinner"></div>
+        <h4 class="loading-title">MediMind AI is analyzing...</h4>
+        <div class="loading-steps font-mono text-slate">
+          <div class="step-line active" id="loadStep1">● Parsing symptom description...</div>
+          <div class="step-line" id="loadStep2">○ Matching clinical databases...</div>
+          <div class="step-line" id="loadStep3">○ Running statistical severity classification...</div>
+        </div>
+      </div>
+
+      <!-- Result Panel -->
+      <div class="symptom-result-panel hide" id="symptomResultPanel">
+        <!-- Urgency Badge & Suspicion -->
+        <div class="result-header">
+          <div class="badge" id="urgencyBadge">Urgency: Moderate</div>
+          <div class="confidence-box font-mono">
+            Confidence: <span id="confidenceValue">88%</span>
+          </div>
+        </div>
+
+        <div class="suspicion-container">
+          <span class="caption-mono label-teal">AI Preliminary Indication</span>
+          <h3 class="suspicion-title" id="suspicionTitle">Acute Pharyngitis / Influenza</h3>
+          <p class="body-sm suspicion-desc" id="suspicionDesc">
+            Symptoms suggest an inflammatory response in the upper respiratory tract. This is common in bacterial or viral infections.
+          </p>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="next-steps-container">
+          <span class="caption-mono font-xs">Recommended Actions</span>
+          <ul class="steps-list" id="stepsList">
+            <li>Keep hydrated and rest.</li>
+            <li>Monitor temperature; take paracetamol if fever persists.</li>
+            <li>Gargle warm salt water for throat relief.</li>
+          </ul>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer-container">
+          <p class="caption">
+            <strong>Disclaimer:</strong> This is a preliminary AI screening tool for educational awareness. It is NOT a substitute for professional medical diagnosis. If symptoms worsen, consult a doctor immediately.
+          </p>
+        </div>
+
+        <!-- Action Row -->
+        <div class="result-actions">
+          <button class="btn btn-secondary flex-1" id="restartSymptomChecker">Reset</button>
+          <a href="#contact" class="btn btn-primary flex-1 justify-center" id="consultDoctorBtn">
+            Book Specialist Consult
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md);
+    animation: fadeIn 0.25s ease-out;
+  }
+
+  .modal-container {
+    width: 100%;
+    max-width: 600px;
+    border-radius: var(--radius-xl);
+    background-color: var(--color-canvas);
+    box-shadow: var(--shadow-level-5), 0 30px 60px rgba(15, 23, 42, 0.2);
+    overflow: hidden;
+    animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .modal-header {
+    padding: var(--space-lg);
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .modal-title-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .modal-logo-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background: var(--gradient-blue-teal);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .modal-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-body);
+    cursor: pointer;
+    padding: var(--space-xxs);
+    transition: var(--transition-smooth);
+    border-radius: 50%;
+  }
+
+  .modal-close-btn:hover {
+    background-color: var(--color-canvas-soft-2);
+    color: var(--color-ink);
+  }
+
+  /* Modal Body */
+  .modal-body {
+    padding: var(--space-lg);
+  }
+
+  .input-instructions {
+    color: var(--color-body);
+    margin-bottom: var(--space-lg);
+    text-align: left;
+  }
+
+  /* Presets */
+  .presets-container {
+    margin-bottom: var(--space-lg);
+    text-align: left;
+  }
+
+  .presets-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-mute);
+    display: block;
+    margin-bottom: var(--space-xs);
+  }
+
+  .presets-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .preset-btn {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 6px 12px;
+    background-color: var(--color-canvas-soft);
+    border: 1px solid var(--color-canvas-soft-2);
+    color: var(--color-body);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+  }
+
+  .preset-btn:hover {
+    background-color: rgba(37, 99, 235, 0.05);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  /* Textarea Scanner wrapper */
+  .textarea-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .symptom-textarea {
+    width: 100%;
+    min-height: 120px;
+    resize: none;
+  }
+
+  /* Scanning animation */
+  .scanning-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-blue-teal);
+    box-shadow: 0 0 8px var(--color-accent);
+    z-index: 5;
+    animation: scanAnim 2s linear infinite;
+  }
+
+  /* Loading State */
+  .symptom-loading-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2xl) 0;
+    gap: var(--space-md);
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(37, 99, 235, 0.1);
+    border-top: 3px solid var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .loading-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .loading-steps {
+    font-size: 0.75rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    width: 280px;
+  }
+
+  .step-line.active {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  /* Result Panel */
+  .symptom-result-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .confidence-box {
+    font-size: 0.75rem;
+    color: var(--color-body);
+    background-color: var(--color-canvas-soft);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-canvas-soft-2);
+  }
+
+  .suspicion-container {
+    background-color: var(--color-canvas-soft);
+    border: 1px solid var(--color-canvas-soft-2);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    text-align: left;
+  }
+
+  .label-teal {
+    color: var(--color-accent);
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .suspicion-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin-bottom: var(--space-xs);
+  }
+
+  .suspicion-desc {
+    color: var(--color-body);
+    line-height: 1.5;
+  }
+
+  .next-steps-container {
+    text-align: left;
+  }
+
+  .steps-list {
+    margin-top: var(--space-xs);
+    padding-left: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .steps-list li {
+    font-size: 0.85rem;
+    color: var(--color-body);
+    line-height: 1.4;
+  }
+
+  .disclaimer-container {
+    padding: var(--space-sm) var(--space-md);
+    background-color: rgba(239, 68, 68, 0.04);
+    border: 1px solid rgba(239, 68, 68, 0.1);
+    border-radius: var(--radius-md);
+    text-align: left;
+  }
+
+  .disclaimer-container p {
+    color: rgba(239, 68, 68, 0.8);
+    font-size: 0.7rem;
+    line-height: 1.4;
+  }
+
+  .result-actions {
+    display: flex;
+    gap: var(--space-md);
+  }
+
+  /* Utility classes */
+  .hide {
+    display: none !important;
+  }
+
+  .w-full {
+    width: 100%;
+  }
+
+  .flex-1 {
+    flex: 1;
+  }
+
+  .justify-center {
+    justify-content: center;
+  }
+
+  /* Badges color schemes */
+  .urgency-low {
+    background-color: rgba(16, 185, 129, 0.08) !important;
+    color: #10b981 !important;
+    border-color: rgba(16, 185, 129, 0.1) !important;
+  }
+
+  .urgency-moderate {
+    background-color: rgba(245, 158, 11, 0.08) !important;
+    color: #d97706 !important;
+    border-color: rgba(245, 158, 11, 0.1) !important;
+  }
+
+  .urgency-high {
+    background-color: rgba(239, 68, 68, 0.08) !important;
+    color: #ef4444 !important;
+    border-color: rgba(239, 68, 68, 0.1) !important;
+    animation: pulse-soft 1.5s infinite;
+  }
+
+  /* Keyframe animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes scanAnim {
+    0% { top: 0; }
+    50% { top: 100%; }
+    100% { top: 0; }
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
+
+<script>
+  // Symptom checker simulation script
+  const symptomModal = document.getElementById('symptomModal');
+  const closeSymptomModal = document.getElementById('closeSymptomModal');
+  
+  const symptomInputPanel = document.getElementById('symptomInputPanel');
+  const symptomLoadingPanel = document.getElementById('symptomLoadingPanel');
+  const symptomResultPanel = document.getElementById('symptomResultPanel');
+  
+  const symptomText = document.getElementById('symptomText') as HTMLTextAreaElement;
+  const analyzeSymptomsBtn = document.getElementById('analyzeSymptomsBtn');
+  const scanningBar = document.getElementById('scanningBar');
+  const restartSymptomChecker = document.getElementById('restartSymptomChecker');
+  const consultDoctorBtn = document.getElementById('consultDoctorBtn');
+
+  // Loading Steps elements
+  const loadStep1 = document.getElementById('loadStep1');
+  const loadStep2 = document.getElementById('loadStep2');
+  const loadStep3 = document.getElementById('loadStep3');
+
+  // Result details elements
+  const urgencyBadge = document.getElementById('urgencyBadge');
+  const confidenceValue = document.getElementById('confidenceValue');
+  const suspicionTitle = document.getElementById('suspicionTitle');
+  const suspicionDesc = document.getElementById('suspicionDesc');
+  const stepsList = document.getElementById('stepsList');
+
+  // Trigger elements on the page (globally listening for data-symptom-trigger)
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const trigger = target.closest('[data-symptom-trigger]');
+    if (trigger && symptomModal) {
+      e.preventDefault();
+      symptomModal.classList.remove('hide');
+      document.body.style.overflow = 'hidden';
+      
+      // Auto focus textarea
+      if (symptomText) {
+        symptomText.focus();
+      }
+    }
+  });
+
+  // Close modal
+  if (closeSymptomModal && symptomModal) {
+    closeSymptomModal.addEventListener('click', () => {
+      symptomModal.classList.add('hide');
+      document.body.style.overflow = '';
+      resetChecker();
+    });
+    
+    // Close on click outside modal
+    symptomModal.addEventListener('click', (e) => {
+      if (e.target === symptomModal) {
+        symptomModal.classList.add('hide');
+        document.body.style.overflow = '';
+        resetChecker();
+      }
+    });
+  }
+
+  // Preset symptom buttons click
+  const presetButtons = document.querySelectorAll('.preset-btn');
+  presetButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.getAttribute('data-symptoms') || '';
+      if (symptomText) {
+        symptomText.value = text;
+        symptomText.focus();
+      }
+    });
+  });
+
+  // Action: Analyze Symptoms
+  if (analyzeSymptomsBtn && symptomText && symptomInputPanel && symptomLoadingPanel) {
+    analyzeSymptomsBtn.addEventListener('click', () => {
+      const symptomsVal = symptomText.value.trim();
+      if (!symptomsVal) {
+        symptomText.focus();
+        symptomText.placeholder = "Please enter some symptoms here first!";
+        return;
+      }
+
+      // 1. Show scanning bar on input
+      if (scanningBar) scanningBar.classList.remove('hide');
+      analyzeSymptomsBtn.setAttribute('disabled', 'true');
+
+      // 2. Wait 1 second (scanning), then go to loading panel
+      setTimeout(() => {
+        if (scanningBar) scanningBar.classList.add('hide');
+        analyzeSymptomsBtn.removeAttribute('disabled');
+        symptomInputPanel.classList.add('hide');
+        symptomLoadingPanel.classList.remove('hide');
+        
+        runLoadingSequencer(symptomsVal);
+      }, 1000);
+    });
+  }
+
+  // Loading sequencer animation
+  function runLoadingSequencer(symptomInput: string) {
+    if (!loadStep1 || !loadStep2 || !loadStep3 || !symptomLoadingPanel || !symptomResultPanel) return;
+
+    // Step 1: Active by default
+    loadStep1.className = "step-line active";
+    loadStep2.className = "step-line";
+    loadStep3.className = "step-line";
+
+    // After 800ms, go to Step 2
+    setTimeout(() => {
+      loadStep1.className = "step-line text-teal";
+      loadStep1.innerHTML = "✓ Parsing symptom description completed";
+      loadStep2.className = "step-line active";
+      loadStep2.innerHTML = "● Matching clinical databases...";
+    }, 800);
+
+    // After 1600ms, go to Step 3
+    setTimeout(() => {
+      loadStep2.className = "step-line text-teal";
+      loadStep2.innerHTML = "✓ Database match completed";
+      loadStep3.className = "step-line active";
+      loadStep3.innerHTML = "● Running statistical severity classification...";
+    }, 1600);
+
+    // After 2400ms, show result
+    setTimeout(() => {
+      loadStep3.className = "step-line text-teal";
+      loadStep3.innerHTML = "✓ Classification analysis completed";
+      
+      // Load diagnostic details
+      compileReport(symptomInput);
+      
+      // Swap panels
+      symptomLoadingPanel.classList.add('hide');
+      symptomResultPanel.classList.remove('hide');
+    }, 2400);
+  }
+
+  // Diagnoser mapping reports
+  function compileReport(symptoms: string) {
+    if (!urgencyBadge || !confidenceValue || !suspicionTitle || !suspicionDesc || !stepsList) return;
+    
+    const query = symptoms.toLowerCase();
+    
+    // Default values
+    let urgency = "Moderate";
+    let urgencyClass = "urgency-moderate";
+    let confidence = "84%";
+    let title = "Acute Upper Respiratory Response";
+    let desc = "Symptoms indicate a mild inflammatory response in your respiratory tract, commonly associated with early-stage viral conditions.";
+    let steps = [
+      "Keep hydrated and rest.",
+      "Monitor body temperature using a thermometer twice daily.",
+      "Avoid strenuous physical activities for the next 48 hours."
+    ];
+
+    if (query.includes('arm') || query.includes('chest') || query.includes('breath') || query.includes('shortness')) {
+      urgency = "High Emergency";
+      urgencyClass = "urgency-high";
+      confidence = "94%";
+      title = "Potential Cardiovascular Tension";
+      desc = "Cardiovascular pressure matched. Symptoms such as chest tightness or shortness of breath require immediate clinical evaluation.";
+      steps = [
+        "Seek emergency medical services or go to the nearest ER.",
+        "Sit upright and try to maintain slow, deep breathing.",
+        "Do not engage in physical exertion."
+      ];
+    } else if (query.includes('headache') || query.includes('migraine') || query.includes('fever')) {
+      urgency = "Moderate";
+      urgencyClass = "urgency-moderate";
+      confidence = "88%";
+      title = "Migraine Response with Febrile Reaction";
+      desc = "Input aligns with acute headache triggered by temperature changes or mild systemic infection.";
+      steps = [
+        "Rest in a quiet, dark, well-ventilated room.",
+        "Take over-the-counter paracetamol to alleviate fever (consult pharmacist).",
+        "Place a cool, damp cloth on your forehead and stay hydrated."
+      ];
+    } else if (query.includes('cough') || query.includes('cold') || query.includes('nose') || query.includes('congestion')) {
+      urgency = "Low";
+      urgencyClass = "urgency-low";
+      confidence = "92%";
+      title = "Viral Nasopharyngitis (Common Cold)";
+      desc = "Your symptoms match nasopharyngeal irritation, heavily correlated with rhinovirus strains.";
+      steps = [
+        "Inhale steam or use saline nasal sprays to relieve congestion.",
+        "Drink warm decaffeinated tea with honey to soothe throat linings.",
+        "Maintain normal sleep cycle; standard duration is 7 to 10 days."
+      ];
+    } else if (query.includes('stomach') || query.includes('belly') || query.includes('abdomen') || query.includes('nausea')) {
+      urgency = "Moderate";
+      urgencyClass = "urgency-moderate";
+      confidence = "86%";
+      title = "Gastrointestinal Spasms / Gastritis";
+      desc = "Symptoms align with gastrointestinal irritation. Localized lower right abdomen pain must be closely monitored.";
+      steps = [
+        "Stick to a bland food diet (bananas, rice, applesauce, toast).",
+        "Avoid dairy, caffeine, alcohol, and fatty foods for 24 hours.",
+        "Seek immediate consult if pain becomes sharp, severe, or shifts to lower right."
+      ];
+    }
+
+    // Set content
+    urgencyBadge.innerText = `Urgency: ${urgency}`;
+    urgencyBadge.className = `badge ${urgencyClass}`;
+    confidenceValue.innerText = confidence;
+    suspicionTitle.innerText = title;
+    suspicionDesc.innerText = desc;
+    
+    // Clear & populate list
+    stepsList.innerHTML = '';
+    steps.forEach(step => {
+      const li = document.createElement('li');
+      li.innerText = step;
+      stepsList.appendChild(li);
+    });
+  }
+
+  // Reset & restart flow
+  function resetChecker() {
+    if (symptomText) symptomText.value = '';
+    resetUI();
+  }
+
+  function resetUI() {
+    if (symptomInputPanel && symptomLoadingPanel && symptomResultPanel) {
+      symptomInputPanel.classList.remove('hide');
+      symptomLoadingPanel.classList.add('hide');
+      symptomResultPanel.classList.add('hide');
+      
+      // Reset loading steps text
+      if (loadStep1 && loadStep2 && loadStep3) {
+        loadStep1.innerHTML = "● Parsing symptom description...";
+        loadStep2.innerHTML = "○ Matching clinical databases...";
+        loadStep3.innerHTML = "○ Running statistical severity classification...";
+      }
+    }
+  }
+
+  if (restartSymptomChecker) {
+    restartSymptomChecker.addEventListener('click', resetUI);
+  }
+
+  // Consult doctor button redirect
+  if (consultDoctorBtn && symptomModal) {
+    consultDoctorBtn.addEventListener('click', () => {
+      symptomModal.classList.add('hide');
+      document.body.style.overflow = '';
+      
+      // Pre-fill contact form message
+      const contactMsg = document.getElementById('message') as HTMLTextAreaElement;
+      if (contactMsg && suspicionTitle) {
+        contactMsg.value = `Hi, I used the AI Symptom Checker and received a report for "${suspicionTitle.innerText}". I would like to book a specialist appointment for consultation.`;
+        contactMsg.focus();
+      }
+    });
+  }
+</script>

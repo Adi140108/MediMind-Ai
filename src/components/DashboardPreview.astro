@@ -1,0 +1,721 @@
+---
+// DashboardPreview.astro
+---
+
+<section id="dashboard" class="section section-lg dark-panel dashboard-preview-section">
+  <div class="container">
+    <div class="dashboard-header">
+      <span class="caption-mono label-teal text-center">Interactive Portal</span>
+      <h2 class="display-lg section-title text-center">Your health metrics in real-time.</h2>
+      <p class="body-lg section-subtitle text-center">
+        Get a glimpse of the MediMind AI dashboard. Monitor live heart rate charts, blood pressure, hydration, and sleep analyses.
+      </p>
+    </div>
+
+    <!-- Dashboard UI Mockup Frame -->
+    <div class="dashboard-frame glass-panel">
+      <!-- Sidebar Nav inside mockup -->
+      <aside class="db-sidebar">
+        <div class="db-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+          <span>MediMind</span>
+        </div>
+        <nav class="db-nav">
+          <button class="db-nav-item active" data-tab="overview">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="9" rx="1"></rect>
+              <rect x="14" y="3" width="7" height="5" rx="1"></rect>
+              <rect x="14" y="12" width="7" height="9" rx="1"></rect>
+              <rect x="3" y="16" width="7" height="5" rx="1"></rect>
+            </svg>
+            Overview
+          </button>
+          <button class="db-nav-item" data-tab="vitals">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+            Vitals History
+          </button>
+          <button class="db-nav-item" data-tab="meds">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"></path>
+              <path d="m8.5 8.5 7 7"></path>
+            </svg>
+            Medication Schedule
+          </button>
+        </nav>
+        <div class="db-user">
+          <div class="user-avatar">JD</div>
+          <div class="user-info">
+            <span class="user-name">John Doe</span>
+            <span class="user-status font-mono">Patient ID: #3094</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main content inside mockup -->
+      <main class="db-main" id="dbContent">
+        <!-- Overview Tab Panel (Default Active) -->
+        <div class="tab-panel active" id="tab-overview">
+          <div class="db-topbar">
+            <h3 class="db-panel-title">Patient Health Summary</h3>
+            <span class="badge badge-teal font-mono font-xs">Live Syncing</span>
+          </div>
+
+          <!-- Cards grid -->
+          <div class="db-cards-grid">
+            <!-- Heart Rate Card -->
+            <div class="db-card glass-panel-dark">
+              <div class="db-card-header">
+                <span class="db-card-label">Heart Rate</span>
+                <span class="pulsing-heart">❤️</span>
+              </div>
+              <div class="db-card-value-group">
+                <span class="db-card-value" id="liveBpm">72</span>
+                <span class="db-card-unit">BPM</span>
+              </div>
+              <!-- Realtime mini SVG chart -->
+              <div class="db-card-chart">
+                <svg viewBox="0 0 100 30" class="live-chart-svg">
+                  <path d="M 0,15 L 20,15 L 25,5 L 30,25 L 35,15 L 50,15 L 55,2 L 60,28 L 65,15 L 80,15 L 85,15 L 90,5 L 95,25 L 100,15" fill="none" stroke="var(--color-primary)" stroke-width="2" class="heart-line"></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Blood Pressure Card -->
+            <div class="db-card glass-panel-dark">
+              <div class="db-card-header">
+                <span class="db-card-label">Blood Pressure</span>
+                <span class="db-card-icon text-teal">🩸</span>
+              </div>
+              <div class="db-card-value-group">
+                <span class="db-card-value">120/80</span>
+                <span class="db-card-unit">mmHg</span>
+              </div>
+              <div class="db-progress-bar">
+                <div class="db-progress-fill teal-bg" style="width: 80%"></div>
+              </div>
+              <span class="db-card-sub text-teal">Optimal Condition</span>
+            </div>
+
+            <!-- Blood Sugar Card -->
+            <div class="db-card glass-panel-dark">
+              <div class="db-card-header">
+                <span class="db-card-label">Blood Sugar</span>
+                <span class="db-card-icon text-amber">🍬</span>
+              </div>
+              <div class="db-card-value-group">
+                <span class="db-card-value">95</span>
+                <span class="db-card-unit">mg/dL</span>
+              </div>
+              <div class="db-progress-bar">
+                <div class="db-progress-fill amber-bg" style="width: 65%"></div>
+              </div>
+              <span class="db-card-sub text-amber">Normal (Fasting)</span>
+            </div>
+
+            <!-- Sleep Tracker Card -->
+            <div class="db-card glass-panel-dark">
+              <div class="db-card-header">
+                <span class="db-card-label">Sleep Analysis</span>
+                <span class="db-card-icon text-purple">🌙</span>
+              </div>
+              <div class="db-card-value-group">
+                <span class="db-card-value">7.8</span>
+                <span class="db-card-unit">Hrs</span>
+              </div>
+              <div class="db-progress-bar">
+                <div class="db-progress-fill purple-bg" style="width: 78%"></div>
+              </div>
+              <span class="db-card-sub text-purple">92% Deep Sleep Quality</span>
+            </div>
+          </div>
+
+          <!-- Bottom detailed log row -->
+          <div class="db-detail-row glass-panel-dark">
+            <div class="detail-header">
+              <h4 class="detail-title">AI Insight Generator</h4>
+              <span class="caption-mono font-xs">MediMind Core v1.0</span>
+            </div>
+            <p class="body-sm detail-text text-left">
+              "Vitals reflect excellent cardiovascular fitness. Resting heart rate of 72 BPM is stable. Hydration levels are optimal. Suggest maintaining your 10:00 AM walk schedule and daily water intake goal."
+            </p>
+          </div>
+        </div>
+
+        <!-- Vitals History Panel -->
+        <div class="tab-panel" id="tab-vitals">
+          <div class="db-topbar">
+            <h3 class="db-panel-title">Vitals Historical Reports</h3>
+            <span class="badge badge-teal font-mono font-xs">Monthly Log</span>
+          </div>
+          <div class="db-vitals-table-wrapper">
+            <table class="db-vitals-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Pulse</th>
+                  <th>Sys/Dia</th>
+                  <th>Glucose</th>
+                  <th>Oxygen</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>June 26, 2026</td>
+                  <td>72 BPM</td>
+                  <td>120/80</td>
+                  <td>95 mg/dL</td>
+                  <td>98%</td>
+                </tr>
+                <tr>
+                  <td>June 25, 2026</td>
+                  <td>74 BPM</td>
+                  <td>122/81</td>
+                  <td>98 mg/dL</td>
+                  <td>99%</td>
+                </tr>
+                <tr>
+                  <td>June 24, 2026</td>
+                  <td>70 BPM</td>
+                  <td>118/79</td>
+                  <td>92 mg/dL</td>
+                  <td>98%</td>
+                </tr>
+                <tr>
+                  <td>June 23, 2026</td>
+                  <td>75 BPM</td>
+                  <td>124/82</td>
+                  <td>102 mg/dL</td>
+                  <td>97%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Medication Panel -->
+        <div class="tab-panel" id="tab-meds">
+          <div class="db-topbar">
+            <h3 class="db-panel-title">Medication Reminder Schedule</h3>
+            <span class="badge badge-teal font-mono font-xs">Adherence Rate: 98%</span>
+          </div>
+          <div class="db-meds-list">
+            <div class="med-item glass-panel-dark">
+              <div class="med-pill-status done">✓</div>
+              <div class="med-info">
+                <span class="med-name">Amoxicillin (500mg)</span>
+                <span class="med-schedule font-mono">Every 8 Hours · Next at 6:00 PM</span>
+              </div>
+              <span class="med-badge font-mono font-xs">Taken</span>
+            </div>
+            <div class="med-item glass-panel-dark">
+              <div class="med-pill-status done">✓</div>
+              <div class="med-info">
+                <span class="med-name">Vitamin D3 (2000 IU)</span>
+                <span class="med-schedule font-mono">Once Daily · Taken with breakfast</span>
+              </div>
+              <span class="med-badge font-mono font-xs">Taken</span>
+            </div>
+            <div class="med-item glass-panel-dark pending">
+              <div class="med-pill-status">●</div>
+              <div class="med-info">
+                <span class="med-name">Omega-3 Fish Oil (1000mg)</span>
+                <span class="med-schedule font-mono">Twice Daily · Next at 8:00 PM</span>
+              </div>
+              <span class="med-badge font-mono font-xs text-amber">Upcoming</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+
+<style>
+  .dashboard-preview-section {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .label-teal {
+    color: var(--color-accent);
+    margin-bottom: var(--space-xs);
+    display: block;
+  }
+
+  .dashboard-header {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .dashboard-frame {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    border-radius: var(--radius-2xl);
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: var(--shadow-level-5), 0 30px 60px rgba(0, 0, 0, 0.4);
+    min-height: 480px;
+    overflow: hidden;
+  }
+
+  /* Mockup Sidebar Nav */
+  .db-sidebar {
+    background: rgba(15, 23, 42, 0.8);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .db-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: white;
+  }
+
+  .db-logo svg {
+    color: var(--color-accent);
+  }
+
+  .db-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: var(--space-xl);
+    flex-grow: 1;
+  }
+
+  .db-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    color: #94a3b8; /* Slate 400 */
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+  }
+
+  .db-nav-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: white;
+  }
+
+  .db-nav-item.active {
+    background: rgba(37, 99, 235, 0.15);
+    color: var(--color-primary);
+    border: 1px solid rgba(37, 99, 235, 0.2);
+  }
+
+  .db-user {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--gradient-blue-teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .user-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .user-status {
+    font-size: 0.6rem;
+    color: #64748b;
+  }
+
+  /* Mockup Main Dashboard Panel */
+  .db-main {
+    padding: var(--space-xl);
+    background: rgba(15, 23, 42, 0.4);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tab-panel {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    animation: dbPanelFadeIn 0.3s ease-out;
+  }
+
+  .tab-panel.active {
+    display: flex;
+  }
+
+  .db-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+  }
+
+  .db-panel-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .db-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .db-card {
+    border-radius: var(--radius-lg);
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .db-card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-xs);
+  }
+
+  .db-card-label {
+    font-size: 0.75rem;
+    color: #94a3b8;
+  }
+
+  .pulsing-heart {
+    font-size: 0.8rem;
+    animation: heartBeat 1.2s infinite;
+    display: inline-block;
+  }
+
+  .db-card-value-group {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: var(--space-sm);
+  }
+
+  .db-card-value {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .db-card-unit {
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+
+  .db-progress-bar {
+    width: 100%;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--space-xs);
+  }
+
+  .db-progress-fill {
+    height: 100%;
+  }
+
+  .teal-bg {
+    background-color: var(--color-accent);
+  }
+
+  .amber-bg {
+    background-color: var(--color-warning);
+  }
+
+  .purple-bg {
+    background-color: #a855f7;
+  }
+
+  .db-card-sub {
+    font-size: 0.65rem;
+  }
+
+  .db-card-chart {
+    height: 30px;
+    margin-top: auto;
+  }
+
+  .live-chart-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .heart-line {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawHeart 4s linear infinite;
+  }
+
+  /* Detail row */
+  .db-detail-row {
+    border-radius: var(--radius-lg);
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: var(--space-md);
+  }
+
+  .detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: var(--space-xs);
+    margin-bottom: var(--space-xs);
+  }
+
+  .detail-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .detail-text {
+    color: #94a3b8 !important;
+    font-size: 0.75rem !important;
+    line-height: 1.5;
+  }
+
+  /* Table Style for vitals */
+  .db-vitals-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .db-vitals-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    color: #94a3b8;
+  }
+
+  .db-vitals-table th {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    color: var(--color-accent);
+    padding: var(--space-sm);
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .db-vitals-table td {
+    padding: var(--space-md) var(--space-sm);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .db-vitals-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  /* Meds List */
+  .db-meds-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .med-item {
+    display: flex;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    gap: var(--space-md);
+  }
+
+  .med-pill-status {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    color: #64748b;
+    font-size: 0.7rem;
+  }
+
+  .med-item.done .med-pill-status {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+  }
+
+  .med-item.pending .med-pill-status {
+    border: 2px solid var(--color-warning);
+    color: var(--color-warning);
+    animation: pulse-soft 1.5s infinite;
+  }
+
+  .med-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: left;
+  }
+
+  .med-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .med-schedule {
+    font-size: 0.65rem;
+    color: #64748b;
+  }
+
+  .med-badge {
+    padding: 3px 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-xs);
+    font-size: 0.6rem;
+    color: #94a3b8;
+  }
+
+  /* Animations for dashboard metrics */
+  @keyframes heartBeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.18); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.18); }
+    70% { transform: scale(1); }
+  }
+
+  @keyframes drawHeart {
+    to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes dbPanelFadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive styling */
+  @media (max-width: 959px) {
+    .dashboard-frame {
+      grid-template-columns: 1fr;
+    }
+    
+    .db-sidebar {
+      border-right: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      flex-direction: row;
+      align-items: center;
+      padding: var(--space-sm) var(--space-md);
+    }
+
+    .db-nav {
+      margin-top: 0;
+      flex-direction: row;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .db-nav-item {
+      padding: 6px 12px;
+      font-size: 0.75rem;
+    }
+
+    .db-user {
+      display: none; /* Hide user avatar in tablet/mobile list */
+    }
+  }
+
+  @media (max-width: 600px) {
+    .db-cards-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .db-nav {
+      display: overflow;
+      overflow-x: auto;
+      white-space: nowrap;
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .db-nav::-webkit-scrollbar {
+      display: none; /* Hide scrollbar for clean tab look */
+    }
+  }
+</style>
+
+<script>
+  // Dynamic Tab Panel Toggling
+  const navItems = document.querySelectorAll('.db-nav-item');
+  const panels = document.querySelectorAll('.tab-panel');
+
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      // Remove active class from buttons
+      navItems.forEach(n => n.classList.remove('active'));
+      // Add active class to clicked button
+      item.classList.add('active');
+
+      // Hide all panels
+      panels.forEach(p => p.classList.remove('active'));
+      
+      // Show corresponding panel
+      const targetTab = item.getAttribute('data-tab');
+      const targetPanel = document.getElementById(`tab-${targetTab}`);
+      if (targetPanel) {
+        targetPanel.classList.add('active');
+      }
+    });
+  });
+
+  // Pulse Vital Value Incrementor (adds live feedback!)
+  const liveBpmEl = document.getElementById('liveBpm');
+  if (liveBpmEl) {
+    setInterval(() => {
+      const currentBpm = parseInt(liveBpmEl.innerText);
+      // Randomly adjust pulse slightly to mimic live monitoring
+      const drift = Math.random() > 0.5 ? 1 : -1;
+      let nextBpm = currentBpm + drift;
+      
+      // Clamp between 68 and 76 BPM
+      if (nextBpm < 68) nextBpm = 68;
+      if (nextBpm > 76) nextBpm = 76;
+      
+      liveBpmEl.innerText = nextBpm.toString();
+    }, 3000);
+  }
+</script>

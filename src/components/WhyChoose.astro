@@ -1,0 +1,321 @@
+---
+// WhyChoose.astro
+---
+
+<section class="section section-lg why-choose-section">
+  <div class="container">
+    <div class="why-choose-grid">
+      <!-- Left Column: Bullet Points -->
+      <div class="why-choose-content">
+        <span class="caption-mono section-eyebrow">Security & Performance</span>
+        <h2 class="display-lg section-title">Smarter care. Absolute privacy.</h2>
+        <p class="body-lg section-subtitle">
+          MediMind AI is built with privacy-first encryption and medical-grade AI models, giving you clinical-level insights instantly.
+        </p>
+
+        <!-- Bullet grid -->
+        <div class="benefits-grid">
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div class="benefit-info">
+              <h4 class="benefit-title">AI-powered health assistance</h4>
+              <p class="body-sm benefit-text">Trained on certified clinical datasets for safety.</p>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div class="benefit-info">
+              <h4 class="benefit-title">Secure encrypted medical records</h4>
+              <p class="body-sm benefit-text">End-to-end encryption keeping your data private.</p>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div class="benefit-info">
+              <h4 class="benefit-title">Fast appointment scheduling</h4>
+              <p class="body-sm benefit-text">Instant doctor match with automatic calendar reminders.</p>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div class="benefit-info">
+              <h4 class="benefit-title">Smart medicine reminders</h4>
+              <p class="body-sm benefit-text">Wearable sync, missed dosage alerts, and auto refills.</p>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div class="benefit-info">
+              <h4 class="benefit-title">Personalized wellness insights</h4>
+              <p class="body-sm benefit-text">Custom meal schedules, workout plans, and health tips.</p>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div class="benefit-info">
+              <h4 class="benefit-title">Easy-to-use interface</h4>
+              <p class="body-sm benefit-text">Clean, intuitive layout accessible for all age groups.</p>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div class="benefit-info">
+              <h4 class="benefit-title">24/7 AI chatbot support</h4>
+              <p class="body-sm benefit-text">Continuous, instantaneous responses to symptoms.</p>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div class="benefit-info">
+              <h4 class="benefit-title">Privacy-first approach</h4>
+              <p class="body-sm benefit-text">We never sell, rent, or distribute patient information.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Comparison Table Mockup -->
+      <div class="why-choose-table">
+        <div class="glass-card table-card">
+          <div class="table-header">
+            <span class="table-title">Platform Comparison</span>
+            <span class="caption-mono font-xs">Feature Audit</span>
+          </div>
+
+          <div class="comparison-table-wrapper">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Features</th>
+                  <th class="active-col">MediMind AI</th>
+                  <th>Traditional</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="feat-name">Clinical AI Checker</td>
+                  <td class="active-col check-mark">✓</td>
+                  <td class="cross-mark">✗</td>
+                </tr>
+                <tr>
+                  <td class="feat-name">256-bit HIPAA Security</td>
+                  <td class="active-col check-mark">✓</td>
+                  <td class="cross-mark">✗</td>
+                </tr>
+                <tr>
+                  <td class="feat-name">Smart Wearable Sync</td>
+                  <td class="active-col check-mark">✓</td>
+                  <td class="cross-mark">✗</td>
+                </tr>
+                <tr>
+                  <td class="feat-name">24/7 Chat Guidance</td>
+                  <td class="active-col check-mark">✓</td>
+                  <td class="cross-mark">✗</td>
+                </tr>
+                <tr>
+                  <td class="feat-name">SOS Emergency Response</td>
+                  <td class="active-col check-mark">✓</td>
+                  <td class="check-mark">✓</td>
+                </tr>
+                <tr>
+                  <td class="feat-name">Medication Reminders</td>
+                  <td class="active-col check-mark">✓</td>
+                  <td class="check-mark">✓</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-choose-section {
+    background-color: var(--color-canvas);
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+  }
+
+  .why-choose-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-4xl);
+    align-items: center;
+  }
+
+  .section-eyebrow {
+    margin-bottom: var(--space-xs);
+    display: block;
+  }
+
+  .section-title {
+    margin-bottom: var(--space-md);
+  }
+
+  .section-subtitle {
+    color: var(--color-body);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+  }
+
+  .benefit-item {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: flex-start;
+  }
+
+  .benefit-check {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: rgba(20, 184, 166, 0.1);
+    color: var(--color-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .benefit-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .benefit-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+    color: var(--color-ink);
+  }
+
+  .benefit-text {
+    font-size: 0.775rem;
+    color: var(--color-body);
+    line-height: 1.4;
+  }
+
+  /* Comparison Table Mockup */
+  .why-choose-table {
+    display: flex;
+    justify-content: center;
+  }
+
+  .table-card {
+    width: 100%;
+    max-width: 440px;
+    padding: var(--space-lg);
+    box-shadow: 
+      0 1px 1px rgba(0, 0, 0, 0.02),
+      0 8px 24px -10px rgba(15, 23, 42, 0.04);
+  }
+
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+    padding-bottom: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .table-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .comparison-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.775rem;
+  }
+
+  .comparison-table th {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    color: var(--color-mute);
+    padding: var(--space-sm);
+    font-weight: 500;
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+  }
+
+  .comparison-table th.active-col {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .comparison-table td {
+    padding: var(--space-md) var(--space-sm);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+  }
+
+  .comparison-table tbody tr:hover {
+    background-color: var(--color-canvas-soft);
+  }
+
+  .feat-name {
+    color: var(--color-body);
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .comparison-table td.active-col {
+    background-color: rgba(37, 99, 235, 0.01);
+    font-weight: 600;
+  }
+
+  .check-mark {
+    color: var(--color-accent);
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .cross-mark {
+    color: var(--color-mute);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  /* Responsive styles */
+  @media (max-width: 959px) {
+    .why-choose-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-3xl);
+    }
+
+    .why-choose-table {
+      margin-top: var(--space-md);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .benefits-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .table-card {
+      background: var(--color-canvas-soft);
+    }
+  }
+</style>

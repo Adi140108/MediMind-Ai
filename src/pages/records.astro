@@ -1,0 +1,1123 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="MediMind AI – Secure Medical Records Vault">
+  <Header />
+
+  <main class="records-page section">
+    <div class="lc-bg-glow"></div>
+    <div class="lc-bg-glow-2"></div>
+    
+    <div class="container">
+      
+      <!-- Page Header -->
+      <div class="db-page-header text-left">
+        <div>
+          <span class="badge badge-teal animate-pulse-soft">E2E ENCRYPTED VAULT</span>
+          <h1 class="display-lg page-title">Secure Medical Records Vault.</h1>
+          <p class="body-md page-subtitle text-slate">John Doe · Patient Vault MM-3094 · HIPAA Compliant Storage</p>
+        </div>
+        <div class="vault-status-badge">
+          <span class="lock-icon">🔒</span>
+          <span class="caption-mono font-xs label-teal">AES-GCM 256 Active</span>
+        </div>
+      </div>
+
+      <!-- Split layout: Encryption & Uploader (Left), Biometrics & Bookings (Right) -->
+      <div class="vault-split-grid">
+        
+        <!-- Left Column: Security Control & File Upload -->
+        <div class="vault-left-col">
+
+          <!-- Drag & Drop Uploader -->
+          <div class="glass-card uploader-card">
+            <div class="sec-header">
+              <h3 class="display-sm sec-title">OCR Document Ingestion</h3>
+              <span class="caption-mono font-xs label-teal">PDF, JPG, PNG</span>
+            </div>
+            
+            <div class="drop-zone" id="dropZone">
+              <div class="drop-icon">📂</div>
+              <p class="body-sm drop-text">
+                <strong>Drag & drop lab report scan</strong>, or click to browse files
+              </p>
+              <span class="caption font-xs">Files are processed locally via sandbox OCR. No records stored on external servers.</span>
+              <input type="file" id="fileInput" class="hide-file-input" accept=".pdf,.png,.jpg,.jpeg" />
+            </div>
+
+            <!-- Ingestion progress tracker -->
+            <div class="ingest-progress-box hide" id="ingestProgress">
+              <div class="progress-info-row">
+                <span class="caption-mono font-xs label-teal" id="progressStatus">Uploading report...</span>
+                <span class="caption-mono font-xs" id="progressPct">30%</span>
+              </div>
+              <div class="progress-bar-outer">
+                <div class="progress-bar-inner" id="progressBar"></div>
+              </div>
+            </div>
+
+            <!-- OCR Log Console -->
+            <div class="ocr-logs-box hide" id="ocrLogsBox">
+              <span class="caption-mono font-xxs label-mute">OCR Sandbox Extraction Console:</span>
+              <pre class="ocr-logs font-mono" id="ocrLogsText">Initializing OCR parser...</pre>
+            </div>
+          </div>
+
+          <!-- Vault Documents Repository -->
+          <div class="glass-card documents-card" id="vaultDocsCard">
+            <div class="sec-header">
+              <h3 class="display-sm sec-title">Secure Documents Archive</h3>
+              <span class="caption-mono font-xs label-teal" id="docArchiveCount">0 Files</span>
+            </div>
+            
+            <div class="docs-archive-list" id="docsArchiveList">
+              <div class="empty-docs-state">
+                <p class="caption text-center">No documents ingested in this session. Upload a lab PDF or image above to extract biometrics.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Lab Biometrics & Bookings -->
+        <div class="vault-right-col">
+          
+          <!-- Extracted Lab Biometrics -->
+          <div class="glass-card biometrics-card">
+            <div class="sec-header">
+              <h3 class="display-sm sec-title" id="biometricsTitle">Extracted Lab Biometrics</h3>
+              <span class="caption-mono font-xs">Vault Sandbox</span>
+            </div>
+
+            <div class="biometrics-table-wrapper">
+              <table class="biometrics-table">
+                <thead>
+                  <tr>
+                    <th>Biometric Parameter</th>
+                    <th>Measured Value</th>
+                    <th>Reference Range</th>
+                    <th>Clinical Assessment</th>
+                  </tr>
+                </thead>
+                <tbody id="biometricsBody">
+                  <tr class="bio-row" data-explanation="Thyroid Stimulating Hormone regulates metabolic functions. Ideal range is 0.45 - 4.5 mIU/L.">
+                    <td class="param-name font-bold">TSH (Thyroid)</td>
+                    <td class="param-val font-mono">2.10 mIU/L</td>
+                    <td class="param-ref font-mono">0.45 - 4.50</td>
+                    <td><span class="indicator-badge badge-teal">✓ Normal</span></td>
+                  </tr>
+                  <tr class="bio-row" data-explanation="Vitamin D3 is essential for skeletal density and immunity. Deficiencies below 30 ng/mL warrant OTC supplementation.">
+                    <td class="param-name font-bold">Vitamin D3</td>
+                    <td class="param-val font-mono">22.4 ng/mL</td>
+                    <td class="param-ref font-mono">30.0 - 100.0</td>
+                    <td><span class="indicator-badge badge-warn">⚠ Deficient</span></td>
+                  </tr>
+                  <tr class="bio-row" data-explanation="LDL Cholesterol is the primary marker for cardiovascular lipid assessments. Optimal is under 100 mg/dL.">
+                    <td class="param-name font-bold">LDL Cholesterol</td>
+                    <td class="param-val font-mono">112 mg/dL</td>
+                    <td class="param-ref font-mono">&lt; 100.0</td>
+                    <td><span class="indicator-badge badge-warn">⚠ Borderline High</span></td>
+                  </tr>
+                  <tr class="bio-row" data-explanation="Hemoglobin measures active blood oxygen binding capacity. Ideal range is 13.8 - 17.2 g/dL.">
+                    <td class="param-name font-bold">Hemoglobin</td>
+                    <td class="param-val font-mono">14.6 g/dL</td>
+                    <td class="param-ref font-mono">13.8 - 17.2</td>
+                    <td><span class="indicator-badge badge-teal">✓ Normal</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="expanded-explanation-box hide" id="bioExplanationBox">
+              <h5 class="exp-title" id="expTitle">TSH (Thyroid)</h5>
+              <p class="caption" id="expDesc">Thyroid Stimulating Hormone regulates metabolic functions. Ideal range is 0.45 - 4.5 mIU/L.</p>
+            </div>
+
+            <!-- Generate Summary CTA -->
+            <button class="btn btn-primary btn-lg" id="generateSummaryBtn" style="width: 100%; margin-top: 16px; justify-content: center; gap: 8px;">
+              ⚡ Generate AI Health Synthesis Summary
+            </button>
+
+            <!-- AI Summary Report Card -->
+            <div class="glass-card ai-summary-card hide" id="aiSummaryCard" style="margin-top: 16px; padding: var(--space-md); border-color: rgba(20, 184, 166, 0.3); background: rgba(255,255,255,0.9);">
+              <div class="sec-header" style="border-bottom: 1px solid rgba(20, 184, 166, 0.15); padding-bottom: 4px; margin-bottom: 8px;">
+                <h4 class="display-sm sec-title text-teal" style="font-size: 0.85rem; color: var(--color-accent);">MediMind Clinical AI Synthesis</h4>
+                <span class="badge badge-teal font-mono" style="font-size: 0.65rem; padding: 2px 6px;">Generated Live</span>
+              </div>
+              <div class="summary-score-row" style="display: flex; gap: 12px; align-items: center; margin-bottom: 10px;">
+                <div class="score-ring-wrapper" style="width: 44px; height: 44px; position: relative; flex-shrink: 0;">
+                  <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;">
+                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="var(--color-canvas-soft-2)" stroke-width="3" />
+                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="var(--color-accent)" stroke-width="3" stroke-dasharray="94, 100" />
+                  </svg>
+                  <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.725rem; font-weight: 600; color: var(--color-ink);">94%</span>
+                </div>
+                <div>
+                  <strong style="font-size: 0.8rem; color: var(--color-ink); display: block;">Overall Clinical Score: Optimal</strong>
+                  <span class="caption" style="font-size: 0.675rem;">Aggregated from active sandbox records</span>
+                </div>
+              </div>
+              <div class="summary-body" style="font-size: 0.75rem; color: var(--color-body); text-align: left; display: flex; flex-direction: column; gap: 6px; line-height: 1.4;">
+                <p style="margin: 0; font-size: 0.75rem; color: var(--color-body);"><strong>Key Clinical Insights:</strong> Vitamin D3 levels show recovery to 54.2 ng/mL following active therapy. LDL Cholesterol is optimal at 92 mg/dL. TSH and Hemoglobin values remain stable within reference ranges.</p>
+                <p style="margin: 0; font-size: 0.75rem; color: var(--color-body);"><strong>Clinical Action Plan:</strong><br>
+                • Maintain maintenance dose Vitamin D3.<br>
+                • Monitor blood pressure trend twice weekly.<br>
+                • Book specialist review if symptoms arise.</p>
+              </div>
+              <div class="summary-footer" style="display: flex; gap: 8px; margin-top: 10px; border-top: 1px solid var(--color-canvas-soft-2); padding-top: 8px;">
+                <button class="btn btn-secondary btn-sm flex-1" id="downloadPdfBtn" style="font-size: 0.675rem; padding: 4px 8px;">Download Summary</button>
+                <button class="btn btn-secondary btn-sm flex-1" id="shareReportBtn" style="font-size: 0.675rem; padding: 4px 8px;">Secure Share</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Doctor Bookings Slot -->
+          <div class="glass-card appointments-card">
+            <div class="sec-header">
+              <h3 class="display-sm sec-title">Reserved Consultation Tickets</h3>
+              <span class="caption-mono font-xs label-teal">Session Tickets</span>
+            </div>
+
+            <!-- Booking list element -->
+            <div class="bookings-list-container" id="bookingsListContainer">
+              <!-- Dynamically injected appointments -->
+              <div class="empty-bookings-state">
+                <p class="body-sm text-slate">No active specialist tickets found. Book a consultation slot using the <a href="doctors.html" class="inline-link">Specialist Booking</a> page.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Document Preview Modal -->
+  <div class="modal-overlay hide" id="docPreviewModal">
+    <div class="modal-card glass-card" style="max-width: 460px;">
+      <div class="modal-header">
+        <h3 class="display-sm modal-title" id="docPreviewTitle">File Preview</h3>
+        <button class="modal-close" id="docPreviewCloseBtn">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="crypto-key-box" style="margin-bottom: 12px; background-color: var(--color-canvas-soft); padding: 8px; border-radius: 6px; border: 1px solid var(--color-canvas-soft-2);">
+          <span class="caption-mono font-xxs label-mute" style="display:block;">Ingested Sandbox Metadata:</span>
+          <span class="caption font-xs" id="docPreviewMeta" style="color: var(--color-ink); font-weight: 500;">Uploaded: Today · Size: 2.1 MB</span>
+        </div>
+        
+        <span class="caption-mono font-xxs label-mute" style="display:block; margin-bottom: 4px;">Extracted Sandbox OCR Text Output:</span>
+        <div class="ocr-logs font-mono" id="docPreviewOcrText" style="max-height: 180px; overflow-y: auto; background-color: var(--color-canvas-dark); color: #38bdf8; padding: 12px; border-radius: 6px; font-size: 0.675rem; border: 1px solid rgba(255,255,255,0.05); white-space: pre-wrap; word-break: break-all; line-height: 1.45; text-align: left;">
+          Raw text...
+        </div>
+      </div>
+
+      <div class="modal-footer" style="margin-top: var(--space-md); display: flex; gap: var(--space-md);">
+        <button class="btn btn-secondary flex-1" id="docPreviewCloseBtn2">Close Preview</button>
+        <button class="btn btn-secondary flex-1" id="docPreviewDeleteBtn" style="color: var(--color-error); border-color: rgba(239, 68, 68, 0.2);">Delete Record</button>
+      </div>
+    </div>
+  </div>
+
+  <Footer />
+</Layout>
+
+<style>
+  .records-page {
+    padding-top: 110px;
+    background-color: var(--color-canvas-soft);
+    position: relative;
+    overflow: hidden;
+    min-height: calc(100vh - 120px);
+  }
+
+  .lc-bg-glow {
+    position: absolute;
+    top: 5%;
+    left: -5%;
+    width: 350px;
+    height: 350px;
+    background-color: rgba(37, 99, 235, 0.05);
+    filter: blur(120px);
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  .lc-bg-glow-2 {
+    position: absolute;
+    bottom: 10%;
+    right: -5%;
+    width: 350px;
+    height: 350px;
+    background-color: rgba(20, 184, 166, 0.04);
+    filter: blur(120px);
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  .db-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+    padding-bottom: var(--space-md);
+    margin-bottom: var(--space-xl);
+    text-align: left;
+  }
+
+  .page-title {
+    margin-bottom: 4px;
+  }
+
+  .vault-status-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    background-color: rgba(20, 184, 166, 0.06);
+    border: 1px solid rgba(20, 184, 166, 0.15);
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    margin-bottom: var(--space-xs);
+  }
+
+  .lock-icon {
+    font-size: 0.85rem;
+  }
+
+  /* Split layout */
+  .vault-split-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .vault-left-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  /* Document Archive Cards styling */
+  .documents-card {
+    padding: var(--space-md);
+    background-color: var(--color-canvas);
+    text-align: left;
+  }
+
+  .docs-archive-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .archive-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-xs) var(--space-sm);
+    background-color: var(--color-canvas-soft);
+    border: 1px solid var(--color-canvas-soft-2);
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    animation: fadeIn 0.3s ease;
+    transition: var(--transition-smooth);
+  }
+
+  .archive-item.selected {
+    border-color: var(--color-primary);
+    background-color: rgba(37, 99, 235, 0.04);
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
+
+  .archive-item-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 70%;
+  }
+
+  .archive-item-icon {
+    font-size: 1.15rem;
+    flex-shrink: 0;
+  }
+
+  .archive-item-details {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .archive-item-name {
+    font-weight: 600;
+    color: var(--color-ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .archive-item-meta {
+    font-size: 0.675rem;
+    color: var(--color-mute);
+  }
+
+  .empty-docs-state {
+    padding: var(--space-md) var(--space-sm);
+    text-align: center;
+    color: var(--color-mute);
+  }
+
+  .vault-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .sec-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+    padding-bottom: var(--space-xs);
+    margin-bottom: var(--space-md);
+  }
+
+  .sec-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  /* Console */
+  .security-console {
+    padding: var(--space-md);
+    background-color: var(--color-canvas);
+    text-align: left;
+  }
+
+  .crypto-key-box {
+    background-color: var(--color-canvas-soft);
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-canvas-soft-2);
+    margin-bottom: var(--space-md);
+  }
+
+  .key-display {
+    font-size: 0.8rem;
+    color: var(--color-ink);
+    margin-top: 4px;
+    letter-spacing: 0.02em;
+    overflow-x: auto;
+  }
+
+  .sec-actions-row {
+    display: flex;
+    gap: var(--space-sm);
+  }
+
+  /* Uploader */
+  .uploader-card {
+    padding: var(--space-md);
+    background-color: var(--color-canvas);
+    text-align: left;
+  }
+
+  .drop-zone {
+    border: 2px dashed var(--color-canvas-soft-2);
+    background-color: var(--color-canvas-soft);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl) var(--space-md);
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--color-primary);
+    background-color: rgba(37, 99, 235, 0.03);
+  }
+
+  .drop-icon {
+    font-size: 2.2rem;
+  }
+
+  .drop-text {
+    color: var(--color-body);
+    max-width: 280px;
+  }
+
+  .hide-file-input {
+    display: none;
+  }
+
+  /* Progress tracker */
+  .ingest-progress-box {
+    margin-top: var(--space-md);
+    background-color: var(--color-canvas-soft);
+    border: 1px solid var(--color-canvas-soft-2);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    text-align: left;
+  }
+
+  .progress-info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .progress-bar-outer {
+    width: 100%;
+    height: 6px;
+    background-color: var(--color-canvas-soft-2);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .progress-bar-inner {
+    height: 100%;
+    background-color: var(--color-primary);
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* Pre logs console */
+  .ocr-logs-box {
+    margin-top: var(--space-md);
+    text-align: left;
+  }
+
+  .ocr-logs {
+    background-color: var(--color-canvas-dark);
+    color: #38bdf8; /* Sky-400 */
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    font-size: 0.675rem;
+    max-height: 120px;
+    overflow-y: auto;
+    margin-top: 4px;
+    border: 1px solid rgba(255,255,255,0.05);
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  /* Biometrics Table */
+  .biometrics-card {
+    padding: var(--space-md);
+    background-color: var(--color-canvas);
+    text-align: left;
+  }
+
+  .biometrics-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: var(--space-md);
+  }
+
+  .biometrics-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.775rem;
+    color: var(--color-body);
+  }
+
+  .biometrics-table th {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--color-mute);
+    padding: var(--space-sm);
+    text-align: left;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+  }
+
+  .biometrics-table td {
+    padding: var(--space-md) var(--space-sm);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+    text-align: left;
+  }
+
+  .bio-row {
+    cursor: pointer;
+    transition: var(--transition-smooth);
+  }
+
+  .bio-row:hover {
+    background-color: rgba(37, 99, 235, 0.02);
+  }
+
+  .indicator-badge {
+    padding: 3px 8px;
+    font-size: 0.7rem;
+    border-radius: var(--radius-pill);
+    font-weight: 500;
+  }
+
+  .badge-warn {
+    background-color: rgba(245, 158, 11, 0.08);
+    color: var(--color-warning);
+    border: 1px solid rgba(245, 158, 11, 0.15);
+  }
+
+  /* Expanded explanation */
+  .expanded-explanation-box {
+    background-color: rgba(37, 99, 235, 0.04);
+    border: 1px solid rgba(37, 99, 235, 0.1);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    animation: fadeIn 0.2s ease;
+  }
+
+  .exp-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 2px;
+  }
+
+  /* Reserved tickets */
+  .appointments-card {
+    padding: var(--space-md);
+    background-color: var(--color-canvas);
+    text-align: left;
+  }
+
+  .bookings-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .booking-ticket {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    background-color: var(--color-canvas-soft);
+    border: 1px solid var(--color-canvas-soft-2);
+    border-radius: var(--radius-md);
+  }
+
+  .ticket-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .ticket-doc {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .ticket-details {
+    font-size: 0.75rem;
+    color: var(--color-body);
+  }
+
+  .ticket-ref {
+    display: inline-block;
+    margin-top: 2px;
+  }
+
+  .empty-bookings-state {
+    padding: var(--space-lg) var(--space-sm);
+    text-align: center;
+  }
+
+  .inline-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .inline-link:hover {
+    text-decoration: underline;
+  }
+
+  .font-xxs {
+    font-size: 0.65rem;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive layout */
+  @media (max-width: 959px) {
+    .vault-split-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+  }
+</style>
+
+<script>
+  // Document data and detail selection state
+  let selectedDocIndex = 0;
+
+  // Preloaded mock documents with embedded clinical parameters
+  const defaultDocs = [
+    { 
+      name: 'lab_panel_jan.pdf', 
+      date: 'Jan 12, 2026', 
+      size: '1.8 MB', 
+      status: 'Parsed',
+      biometrics: [
+        { name: 'Hemoglobin', val: '14.6 g/dL', ref: '13.8 - 17.2', status: '✓ Normal', statusClass: 'badge-teal', explanation: 'Hemoglobin measures oxygen carrying capacity. Current level is optimal.' },
+        { name: 'White Blood Cell', val: '6.4 x10^3/uL', ref: '4.5 - 11.0', status: '✓ Normal', statusClass: 'badge-teal', explanation: 'WBC count evaluates immune activity. Value is stable within range.' }
+      ]
+    },
+    { 
+      name: 'thyroid_scan_mar.png', 
+      date: 'Mar 05, 2026', 
+      size: '3.2 MB', 
+      status: 'Parsed',
+      biometrics: [
+        { name: 'TSH (Thyroid)', val: '2.10 mIU/L', ref: '0.45 - 4.50', status: '✓ Normal', statusClass: 'badge-teal', explanation: 'Thyroid Stimulating Hormone regulates metabolism. Output is stable.' },
+        { name: 'Free T4', val: '1.2 ng/dL', ref: '0.8 - 1.8', status: '✓ Normal', statusClass: 'badge-teal', explanation: 'Free Thyroxine level is within normal limit.' }
+      ]
+    }
+  ];
+
+  // File dropzone trigger and mock OCR pipeline
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  const ingestProgress = document.getElementById('ingestProgress');
+  const progressBar = document.getElementById('progressBar');
+  const progressPct = document.getElementById('progressPct');
+  const progressStatus = document.getElementById('progressStatus');
+  const ocrLogsBox = document.getElementById('ocrLogsBox');
+  const ocrLogsText = document.getElementById('ocrLogsText');
+
+  // Vault documents & biometrics HTML targets
+  const docsArchiveList = document.getElementById('docsArchiveList');
+  const docArchiveCount = document.getElementById('docArchiveCount');
+  const biometricsBody = document.getElementById('biometricsBody');
+  const biometricsTitle = document.getElementById('biometricsTitle');
+
+  // Document preview modal variables
+  const docPreviewModal = document.getElementById('docPreviewModal');
+  const docPreviewTitle = document.getElementById('docPreviewTitle');
+  const docPreviewMeta = document.getElementById('docPreviewMeta');
+  const docPreviewOcrText = document.getElementById('docPreviewOcrText');
+  const docPreviewDeleteBtn = document.getElementById('docPreviewDeleteBtn');
+  let previewIndex = -1;
+
+  function renderDocuments() {
+    if (!docsArchiveList || !docArchiveCount) return;
+    const docs = JSON.parse(sessionStorage.getItem('vaultDocuments') || JSON.stringify(defaultDocs));
+    
+    if (!sessionStorage.getItem('vaultDocuments')) {
+      sessionStorage.setItem('vaultDocuments', JSON.stringify(defaultDocs));
+    }
+
+    docArchiveCount.innerText = `${docs.length} File${docs.length === 1 ? '' : 's'}`;
+
+    if (docs.length === 0) {
+      docsArchiveList.innerHTML = `
+        <div class="empty-docs-state">
+          <p class="caption text-center">No documents ingested in this session. Upload a lab PDF or image above to extract biometrics.</p>
+        </div>
+      `;
+      selectedDocIndex = -1;
+      renderBiometrics();
+      return;
+    }
+
+    // Force index correction
+    if (selectedDocIndex >= docs.length) {
+      selectedDocIndex = 0;
+    }
+
+    let html = '';
+    docs.forEach((doc, idx) => {
+      const ext = doc.name.split('.').pop().toLowerCase();
+      const icon = (ext === 'png' || ext === 'jpg' || ext === 'jpeg') ? '🖼️' : '📄';
+      const isSelected = idx === selectedDocIndex ? 'selected' : '';
+      
+      html += `
+        <div class="archive-item ${isSelected}" data-index="${idx}" style="cursor: pointer;">
+          <div class="archive-item-info">
+            <span class="archive-item-icon">${icon}</span>
+            <div class="archive-item-details">
+              <span class="archive-item-name" title="${doc.name}">${doc.name}</span>
+              <span class="archive-item-meta">${doc.date} · ${doc.size}</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <span class="indicator-badge badge-teal font-xxs" style="padding: 2px 6px;">${doc.status}</span>
+            <button class="delete-doc-btn" data-index="${idx}" style="font-size: 1.2rem; color: var(--color-mute); cursor: pointer; border: none; background: none; line-height: 1;">×</button>
+          </div>
+        </div>
+      `;
+    });
+
+    docsArchiveList.innerHTML = html;
+
+    // Attach click selectors to each archive row (updates right detail view)
+    const archiveItems = docsArchiveList.querySelectorAll('.archive-item');
+    archiveItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        if (e.target.classList.contains('delete-doc-btn')) return;
+        const index = parseInt(item.getAttribute('data-index') || '0');
+        selectedDocIndex = index;
+        renderDocuments();
+        renderBiometrics();
+      });
+    });
+
+    // Double click to open preview modal
+    archiveItems.forEach(item => {
+      item.addEventListener('dblclick', (e) => {
+        if (e.target.classList.contains('delete-doc-btn')) return;
+        const index = parseInt(item.getAttribute('data-index') || '0');
+        openDocPreview(index);
+      });
+    });
+
+    // Attach delete handlers
+    const deleteBtns = docsArchiveList.querySelectorAll('.delete-doc-btn');
+    deleteBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const index = parseInt(btn.getAttribute('data-index') || '0');
+        deleteDocument(index);
+      });
+    });
+  }
+
+  function renderBiometrics() {
+    if (!biometricsBody) return;
+    const docs = JSON.parse(sessionStorage.getItem('vaultDocuments') || JSON.stringify(defaultDocs));
+    const selectedDoc = docs[selectedDocIndex];
+
+    if (biometricsTitle) {
+      if (selectedDoc) {
+        biometricsTitle.innerText = `Extracted Biometrics: ${selectedDoc.name}`;
+      } else {
+        biometricsTitle.innerText = 'Extracted Biometrics';
+      }
+    }
+
+    if (!selectedDoc || !selectedDoc.biometrics || selectedDoc.biometrics.length === 0) {
+      biometricsBody.innerHTML = `
+        <tr>
+          <td colspan="4" style="text-align: center; padding: var(--space-xl) var(--space-sm); color: var(--color-mute);">No extracted parameters found. Select a document or upload one above.</td>
+        </tr>
+      `;
+      if (bioExplanationBox) bioExplanationBox.classList.add('hide');
+      return;
+    }
+
+    let html = '';
+    selectedDoc.biometrics.forEach((bio, idx) => {
+      html += `
+        <tr class="bio-row" data-index="${idx}" data-explanation="${bio.explanation}">
+          <td class="param-name font-bold">${bio.name}</td>
+          <td class="param-val font-mono">${bio.val}</td>
+          <td class="param-ref font-mono">${bio.ref}</td>
+          <td><span class="indicator-badge ${bio.statusClass}">${bio.status}</span></td>
+        </tr>
+      `;
+    });
+
+    biometricsBody.innerHTML = html;
+
+    // Reset explanation box
+    if (bioExplanationBox) bioExplanationBox.classList.add('hide');
+
+    // Attach click handlers to biometric rows
+    setupBioRowClicks();
+  }
+
+  function openDocPreview(index) {
+    const docs = JSON.parse(sessionStorage.getItem('vaultDocuments') || '[]');
+    const doc = docs[index];
+    if (!doc) return;
+
+    previewIndex = index;
+    if (docPreviewTitle) docPreviewTitle.innerText = doc.name;
+    if (docPreviewMeta) docPreviewMeta.innerText = `Uploaded: ${doc.date} · Size: ${doc.size}`;
+    
+    const fLower = doc.name.toLowerCase();
+    let ocrText = '';
+    if (fLower.includes('vit') || fLower.includes('d3')) {
+      ocrText = `[DECIPHER KEY SEALS ACTIVE]\nPATIENT ID: MM-3094\nTEST: VITAMIN D3 (25-HYDROXY)\nRESULT: 54.2 NG/ML\nREFERENCE RANGE: 30.0 - 100.0 NG/ML\nCLINICAL ASSESSMENT: NORMAL RANGE\nDECISION SUPPORT: MAINTAIN DIETARY INTAKE AND SUPPLEMENTATION.`;
+    } else if (fLower.includes('chol') || fLower.includes('lipid')) {
+      ocrText = `[DECIPHER KEY SEALS ACTIVE]\nPATIENT ID: MM-3094\nTEST: CHOLESTEROL, TOTAL: 170 MG/DL\nTEST: LDL CHOLESTEROL: 92 MG/DL\nTEST: HDL CHOLESTEROL: 58 MG/DL\nTEST: TRIGLYCERIDES: 135 MG/DL\nREFERENCE RANGE LDL: < 100.0 MG/DL\nCLINICAL ASSESSMENT: OPTIMAL\nDECISION SUPPORT: MAINTAIN DIETARY REGIME.`;
+    } else if (fLower.includes('jan')) {
+      ocrText = `[DECIPHER KEY SEALS ACTIVE]\nPATIENT ID: MM-3094\nDATE: JAN 12, 2026\nTEST: HEMOGLOBIN\nRESULT: 14.6 G/DL\nREFERENCE RANGE: 13.8 - 17.2 G/DL\nCLINICAL ASSESSMENT: OPTIMAL\nDECISION SUPPORT: HEALTHY VENTILATION INDICATION.`;
+    } else if (fLower.includes('thyroid') || fLower.includes('mar')) {
+      ocrText = `[DECIPHER KEY SEALS ACTIVE]\nPATIENT ID: MM-3094\nDATE: MAR 05, 2026\nTEST: TSH (THYROID STIMULATING HORMONE)\nRESULT: 2.10 MIU/L\nREFERENCE RANGE: 0.45 - 4.50 MIU/L\nCLINICAL ASSESSMENT: NORMAL THYROID GLAND METABOLISM\nDECISION SUPPORT: STABLE REGULATORY METRIC.`;
+    } else {
+      ocrText = `[DECIPHER KEY SEALS ACTIVE]\nPATIENT ID: MM-3094\nTEST: SERUM IRON\nRESULT: 152 MCG/DL\nREFERENCE RANGE: 50 - 170 MCG/DL\nCLINICAL ASSESSMENT: NORMAL CIRCULATION VALUE\nDECISION SUPPORT: OPTIMAL TRANS-FERRIN SATURATION.`;
+    }
+
+    if (docPreviewOcrText) docPreviewOcrText.innerText = ocrText;
+    docPreviewModal?.classList.remove('hide');
+  }
+
+  const docPreviewCloseBtn = document.getElementById('docPreviewCloseBtn');
+  const docPreviewCloseBtn2 = document.getElementById('docPreviewCloseBtn2');
+  function closeDocPreview() {
+    docPreviewModal?.classList.add('hide');
+  }
+  if (docPreviewCloseBtn) docPreviewCloseBtn.addEventListener('click', closeDocPreview);
+  if (docPreviewCloseBtn2) docPreviewCloseBtn2.addEventListener('click', closeDocPreview);
+
+  if (docPreviewDeleteBtn) {
+    docPreviewDeleteBtn.addEventListener('click', () => {
+      if (previewIndex !== -1) {
+        deleteDocument(previewIndex);
+        closeDocPreview();
+      }
+    });
+  }
+
+  function deleteDocument(index) {
+    const docs = JSON.parse(sessionStorage.getItem('vaultDocuments') || '[]');
+    const removed = docs.splice(index, 1)[0];
+    sessionStorage.setItem('vaultDocuments', JSON.stringify(docs));
+    
+    // Shift selection if selected is deleted
+    if (selectedDocIndex === index) {
+      selectedDocIndex = 0;
+    } else if (selectedDocIndex > index) {
+      selectedDocIndex--;
+    }
+    
+    renderDocuments();
+    renderBiometrics();
+  }
+
+  if (dropZone && fileInput) {
+    dropZone.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      const files = e.dataTransfer?.files;
+      if (files && files.length > 0) {
+        startMockOCR(files[0].name);
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
+      const files = fileInput.files;
+      if (files && files.length > 0) {
+        startMockOCR(files[0].name);
+      }
+    });
+  }
+
+  function startMockOCR(fileName) {
+    if (!ingestProgress || !progressBar || !progressPct || !progressStatus || !ocrLogsBox || !ocrLogsText) return;
+
+    ingestProgress.classList.remove('hide');
+    ocrLogsBox.classList.remove('hide');
+
+    let pct = 0;
+    progressStatus.innerText = `Ingesting ${fileName}...`;
+    progressBar.style.width = '0%';
+    progressPct.innerText = '0%';
+    ocrLogsText.innerText = `[LOG] Initializing secure decryption pipeline...\n[LOG] Opened sandbox container for file: ${fileName}`;
+
+    const interval = setInterval(() => {
+      pct += 10;
+      progressBar.style.width = `${pct}%`;
+      progressPct.innerText = `${pct}%`;
+
+      if (pct === 30) {
+        progressStatus.innerText = 'Decrypting data container...';
+        ocrLogsText.innerText += `\n[LOG] Decryption verified using public session seal.`;
+      } else if (pct === 60) {
+        progressStatus.innerText = 'Running OCR clinical text extraction...';
+        ocrLogsText.innerText += `\n[LOG] Running OCR neural network on document raster graphics...\n[LOG] Parsing clinical vocabulary...`;
+      } else if (pct === 80) {
+        progressStatus.innerText = 'Verifying HIPAA signature checks...';
+        ocrLogsText.innerText += `\n[LOG] Signature matched (CLINIC-REF-9082).\n[LOG] Extraction mapped biometric parameters.`;
+      } else if (pct >= 100) {
+        clearInterval(interval);
+        
+        const fLower = fileName.toLowerCase();
+        let biometrics = [];
+        let logMsg = '\n[LOG] Succeeded. Mapped Serum Iron parameters.\n[LOG] Injecting biometric values...';
+        
+        if (fLower.includes('vit') || fLower.includes('d3')) {
+          logMsg = '\n[LOG] Succeeded. Mapped Vitamin D3 parameters.\n[LOG] Injecting biometrics...';
+          biometrics = [
+            { name: 'Vitamin D3', val: '54.2 ng/mL', ref: '30.0 - 100.0', status: '✓ Normal', statusClass: 'badge-teal', explanation: 'Vitamin D3 levels assessed: 54.2 ng/mL. Levels are in optimal health range.' }
+          ];
+        } else if (fLower.includes('chol') || fLower.includes('lipid') || fLower.includes('fat')) {
+          logMsg = '\n[LOG] Succeeded. Mapped Lipid profile parameters.\n[LOG] Injecting biometrics...';
+          biometrics = [
+            { name: 'LDL Cholesterol', val: '92 mg/dL', ref: '< 100.0', status: '✓ Normal', statusClass: 'badge-teal', explanation: 'LDL Cholesterol level is optimal (under 100 mg/dL).' },
+            { name: 'HDL Cholesterol', val: '58 mg/dL', ref: '> 40.0', status: '✓ Normal', statusClass: 'badge-teal', explanation: 'HDL Cholesterol level is cardioprotective.' },
+            { name: 'Total Cholesterol', val: '170 mg/dL', ref: '< 200.0', status: '✓ Normal', statusClass: 'badge-teal', explanation: 'Total Cholesterol is healthy.' }
+          ];
+        } else {
+          biometrics = [
+            { name: 'Serum Iron', val: '152 mcg/dL', ref: '50 - 170', status: '✓ Normal', statusClass: 'badge-teal', explanation: 'Serum Iron indicates normal circulating iron bound to transferrin.' },
+            { name: 'Transferrin Sat.', val: '32%', ref: '15 - 50%', status: '✓ Normal', statusClass: 'badge-teal', explanation: 'Transferrin Saturation ratio is healthy.' }
+          ];
+        }
+        
+        progressStatus.innerText = 'Extraction Succeeded!';
+        ocrLogsText.innerText += logMsg;
+
+        setTimeout(() => {
+          ingestProgress.classList.add('hide');
+          
+          const docs = JSON.parse(sessionStorage.getItem('vaultDocuments') || JSON.stringify(defaultDocs));
+          const sizeMB = (Math.random() * 2 + 1.2).toFixed(1) + ' MB';
+          docs.unshift({
+            name: fileName,
+            date: 'Today',
+            size: sizeMB,
+            status: 'Parsed',
+            biometrics: biometrics
+          });
+          sessionStorage.setItem('vaultDocuments', JSON.stringify(docs));
+          
+          // Select newly uploaded document
+          selectedDocIndex = 0;
+          
+          renderDocuments();
+          renderBiometrics();
+        }, 1000);
+      }
+    }, 300);
+  }
+
+  // Expanded explanations trigger
+  const bioExplanationBox = document.getElementById('bioExplanationBox');
+  const expTitle = document.getElementById('expTitle');
+  const expDesc = document.getElementById('expDesc');
+
+  function setupBioRowClicks() {
+    const rows = document.querySelectorAll('.bio-row');
+    rows.forEach(row => {
+      const newRow = row.cloneNode(true);
+      row.parentNode?.replaceChild(newRow, row);
+      
+      newRow.addEventListener('click', () => {
+        const title = newRow.querySelector('.param-name')?.textContent || '';
+        const desc = newRow.getAttribute('data-explanation') || '';
+        
+        if (bioExplanationBox && expTitle && expDesc) {
+          expTitle.innerText = title;
+          expDesc.innerText = desc;
+          bioExplanationBox.classList.remove('hide');
+        }
+      });
+    });
+  }
+
+  // Load bookings dynamically from sessionStorage
+  const bookingsListContainer = document.getElementById('bookingsListContainer');
+
+  function renderBookings() {
+    if (!bookingsListContainer) return;
+    const activeBookings = JSON.parse(sessionStorage.getItem('activeBookings') || '[]');
+
+    if (activeBookings.length === 0) {
+      bookingsListContainer.innerHTML = `
+        <div class="empty-bookings-state">
+          <p class="body-sm text-slate">No active specialist tickets found. Book a consultation slot using the <a href="doctors.html" class="inline-link">Specialist Booking</a> page.</p>
+        </div>
+      `;
+      return;
+    }
+
+    let html = '';
+    activeBookings.forEach((b, index) => {
+      html += `
+        <div class="booking-ticket" id="ticket-${index}">
+          <div class="ticket-main">
+            <span class="ticket-doc">${b.doctor}</span>
+            <span class="ticket-details">${b.dept} · ${b.time} (${b.date})</span>
+            <span class="caption-mono font-xxs label-teal ticket-ref">Ref: ${b.ref}</span>
+          </div>
+          <button class="btn btn-secondary btn-sm cancel-ticket-btn" data-index="${index}">Cancel Ticket</button>
+        </div>
+      `;
+    });
+
+    bookingsListContainer.innerHTML = html;
+
+    const cancelBtns = bookingsListContainer.querySelectorAll('.cancel-ticket-btn');
+    cancelBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const index = parseInt(btn.getAttribute('data-index') || '0');
+        cancelBooking(index);
+      });
+    });
+  }
+
+  function cancelBooking(index) {
+    const activeBookings = JSON.parse(sessionStorage.getItem('activeBookings') || '[]');
+    const removed = activeBookings.splice(index, 1)[0];
+    sessionStorage.setItem('activeBookings', JSON.stringify(activeBookings));
+    
+    alert(`Appointment ticket cancelled successfully:\nReference Code: ${removed.ref}\nSpecialist: ${removed.doctor}`);
+    renderBookings();
+  }
+
+  // Clinical Summary Generators
+  const generateSummaryBtn = document.getElementById('generateSummaryBtn');
+  const aiSummaryCard = document.getElementById('aiSummaryCard');
+  if (generateSummaryBtn && aiSummaryCard) {
+    generateSummaryBtn.addEventListener('click', () => {
+      generateSummaryBtn.setAttribute('disabled', 'true');
+      generateSummaryBtn.innerText = '⚡ AI Clinical Summarizer Running...';
+      
+      setTimeout(() => {
+        generateSummaryBtn.innerText = '⚡ Summary Generated!';
+        aiSummaryCard.classList.remove('hide');
+        aiSummaryCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 1500);
+    });
+  }
+
+  const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+  const shareReportBtn = document.getElementById('shareReportBtn');
+  if (downloadPdfBtn) {
+    downloadPdfBtn.addEventListener('click', () => {
+      alert("HIPAA Action: Preparing encrypted PDF summary. Download started: 'MediMind_AI_Summary_MM-3094.pdf' (140 KB).");
+    });
+  }
+  if (shareReportBtn) {
+    shareReportBtn.addEventListener('click', () => {
+      alert("HIPAA Action: Secure encrypted link created. Copied to clipboard! Shareable with verified clinics.");
+    });
+  }
+
+  renderBookings();
+  renderDocuments();
+  renderBiometrics();
+</script>

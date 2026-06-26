@@ -1,0 +1,190 @@
+---
+// Stats.astro
+---
+
+<section class="stats-section">
+  <div class="container">
+    <div class="glass-panel stats-wrapper">
+      <!-- Stat 1 -->
+      <div class="stat-item">
+        <div class="stat-icon-wrapper blue-tint">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-number">100,000+</h3>
+          <span class="caption-mono stat-label">Active Users</span>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="stat-divider"></div>
+
+      <!-- Stat 2 -->
+      <div class="stat-item">
+        <div class="stat-icon-wrapper teal-tint">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+            <path d="M12 5v14"></path>
+            <path d="M5 12h14"></path>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-number">5,000+</h3>
+          <span class="caption-mono stat-label">Doctors Connected</span>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="stat-divider"></div>
+
+      <!-- Stat 3 -->
+      <div class="stat-item">
+        <div class="stat-icon-wrapper blue-tint">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-number">1 Million+</h3>
+          <span class="caption-mono stat-label">Reports Managed</span>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="stat-divider"></div>
+
+      <!-- Stat 4 -->
+      <div class="stat-item">
+        <div class="stat-icon-wrapper teal-tint">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+            <line x1="9" y1="9" x2="9.01" y2="9"></line>
+            <line x1="15" y1="9" x2="15.01" y2="9"></line>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-number">98%</h3>
+          <span class="caption-mono stat-label">Satisfaction</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stats-section {
+    padding: 0;
+    margin-top: -40px; /* Overlap with hero slightly for fluid Vercel dashboard look */
+    position: relative;
+    z-index: 10;
+  }
+
+  .stats-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-xl) var(--space-2xl);
+    border-radius: var(--radius-xl);
+    box-shadow: 
+      0 1px 1px rgba(0, 0, 0, 0.01),
+      0 10px 30px -10px rgba(15, 23, 42, 0.06),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex: 1;
+    justify-content: center;
+  }
+
+  .stat-icon-wrapper {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .blue-tint {
+    background-color: rgba(37, 99, 235, 0.06);
+    color: var(--color-primary);
+  }
+
+  .teal-tint {
+    background-color: rgba(20, 184, 166, 0.06);
+    color: var(--color-accent);
+  }
+
+  .stat-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-number {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    color: var(--color-mute);
+    margin-top: 2px;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 40px;
+    background-color: rgba(15, 23, 42, 0.08);
+  }
+
+  /* Responsive styling */
+  @media (max-width: 959px) {
+    .stats-wrapper {
+      padding: var(--space-lg);
+      flex-wrap: wrap;
+      gap: var(--space-lg);
+    }
+    
+    .stat-item {
+      flex: 1 1 40%;
+      justify-content: flex-start;
+      padding: 0 var(--space-md);
+    }
+
+    .stat-divider {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .stats-section {
+      margin-top: 0;
+      padding: var(--space-lg) 0;
+    }
+
+    .stats-wrapper {
+      background: var(--color-canvas);
+      border-radius: var(--radius-lg);
+    }
+
+    .stat-item {
+      flex: 1 1 100%;
+    }
+  }
+</style>

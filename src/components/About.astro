@@ -1,0 +1,330 @@
+---
+// About.astro
+---
+
+<section id="about" class="section section-lg about-section">
+  <div class="container">
+    <div class="about-grid">
+      <!-- Left side text & mission cards -->
+      <div class="about-content">
+        <span class="caption-mono section-eyebrow">About MediMind AI</span>
+        <h2 class="display-lg section-title">
+          Redefining digital healthcare companionship.
+        </h2>
+        <p class="body-lg about-description">
+          MediMind AI is an intelligent healthcare platform designed to make healthcare accessible, proactive, and personalized. Using advanced artificial intelligence, the platform helps users monitor their health, identify possible symptoms, manage medications, schedule doctor appointments, and securely store health records.
+        </p>
+
+        <!-- Mission & Vision Cards in grid -->
+        <div class="mission-vision-grid">
+          <!-- Mission -->
+          <div class="glass-card mv-card">
+            <div class="mv-icon-wrapper blue-bg">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+            </div>
+            <div class="mv-text">
+              <h3 class="mv-title">Our Mission</h3>
+              <p class="body-sm mv-desc">
+                To make healthcare smarter, faster, and accessible for everyone.
+              </p>
+            </div>
+          </div>
+
+          <!-- Vision -->
+          <div class="glass-card mv-card">
+            <div class="mv-icon-wrapper teal-bg">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </div>
+            <div class="mv-text">
+              <h3 class="mv-title">Our Vision</h3>
+              <p class="body-sm mv-desc">
+                To become the world's most trusted AI-powered digital healthcare assistant.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side futuristic network graphic visual -->
+      <div class="about-visual">
+        <div class="network-container">
+          <div class="glow-bg-accent"></div>
+          
+          <!-- Outer spinning ring -->
+          <div class="spinning-ring ring-outer"></div>
+          <!-- Inner spinning ring (opposite direction) -->
+          <div class="spinning-ring ring-inner"></div>
+
+          <!-- Core health symbol with neural nodes -->
+          <div class="core-hub glass-panel">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="url(#blueTealGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              <defs>
+                <linearGradient id="blueTealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="var(--color-primary)" />
+                  <stop offset="100%" stop-color="var(--color-accent)" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <!-- Floating nodes -->
+          <div class="node node-1">
+            <span class="pulse-ring"></span>
+            <div class="node-label glass-card">Symptom AI</div>
+          </div>
+          <div class="node node-2">
+            <span class="pulse-ring"></span>
+            <div class="node-label glass-card">Med Reminders</div>
+          </div>
+          <div class="node node-3">
+            <span class="pulse-ring"></span>
+            <div class="node-label glass-card">Secure Records</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-section {
+    background-color: var(--color-canvas-soft);
+    position: relative;
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-4xl);
+    align-items: center;
+  }
+
+  .section-eyebrow {
+    margin-bottom: var(--space-xs);
+    display: block;
+  }
+
+  .section-title {
+    margin-bottom: var(--space-md);
+    max-width: 550px;
+  }
+
+  .about-description {
+    margin-bottom: var(--space-2xl);
+    color: var(--color-body);
+  }
+
+  .mission-vision-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+  }
+
+  .mv-card {
+    padding: var(--space-md);
+    display: flex;
+    gap: var(--space-md);
+    align-items: flex-start;
+  }
+
+  .mv-icon-wrapper {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .blue-bg {
+    background: linear-gradient(135deg, var(--color-primary) 0%, #3b82f6 100%);
+  }
+
+  .teal-bg {
+    background: linear-gradient(135deg, var(--color-accent) 0%, #2dd4bf 100%);
+  }
+
+  .mv-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mv-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--color-ink);
+  }
+
+  .mv-desc {
+    color: var(--color-body);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  /* Decorative graphic styling */
+  .about-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 360px;
+    position: relative;
+  }
+
+  .network-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .glow-bg-accent {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .spinning-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px dashed rgba(37, 99, 235, 0.2);
+    z-index: 2;
+  }
+
+  .ring-outer {
+    width: 240px;
+    height: 240px;
+    animation: spin 30s linear infinite;
+  }
+
+  .ring-inner {
+    width: 170px;
+    height: 170px;
+    border-color: rgba(20, 184, 166, 0.3);
+    animation: spin-reverse 20s linear infinite;
+  }
+
+  .core-hub {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    box-shadow: var(--shadow-level-4);
+  }
+
+  /* Nodes floating around */
+  .node {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 6;
+  }
+
+  .pulse-ring {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+    position: relative;
+  }
+
+  .pulse-ring::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid var(--color-accent);
+    animation: nodePulse 2s ease-out infinite;
+    opacity: 0;
+  }
+
+  .node-label {
+    margin-top: 6px;
+    font-size: 0.65rem;
+    font-weight: 500;
+    padding: 3px 8px;
+    white-space: nowrap;
+    border-radius: var(--radius-sm);
+  }
+
+  .node-1 {
+    top: 20px;
+    left: 20px;
+  }
+
+  .node-2 {
+    bottom: 20px;
+    right: 10px;
+  }
+
+  .node-3 {
+    top: 130px;
+    right: -20px;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes spin-reverse {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+  }
+
+  @keyframes nodePulse {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+
+  /* Responsive layout */
+  @media (max-width: 959px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-3xl);
+    }
+    
+    .about-visual {
+      margin-top: var(--space-md);
+      height: 320px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .mission-vision-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .mv-card {
+      background: var(--color-canvas);
+    }
+
+    .node {
+      display: none; /* Hide labels for simplicity */
+    }
+  }
+</style>

@@ -1,0 +1,435 @@
+---
+// Pricing.astro
+---
+
+<section id="pricing" class="section section-lg pricing-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="caption-mono section-eyebrow">Pricing Plans</span>
+      <h2 class="display-lg section-title">Sized for your needs. Period.</h2>
+      <p class="body-lg section-subtitle">
+        Choose the plan that suits you best. All options feature clinical-grade encryption and HIPAA compliance.
+      </p>
+
+      <!-- Monthly/Yearly Billing Toggle -->
+      <div class="toggle-container">
+        <span class="toggle-label active" id="labelMonthly">Monthly</span>
+        <button class="billing-toggle" id="billingToggle" aria-label="Toggle billing cycle">
+          <span class="toggle-switch"></span>
+        </button>
+        <span class="toggle-label" id="labelYearly">Yearly <span class="discount-tag">Save 20%</span></span>
+      </div>
+    </div>
+
+    <!-- Pricing Grid -->
+    <div class="pricing-grid">
+      <!-- 1. Free Plan -->
+      <div class="glass-card pricing-card">
+        <div class="pricing-card-header">
+          <h3 class="plan-name">Free Plan</h3>
+          <p class="plan-tagline">Essential health tracking tools.</p>
+        </div>
+        <div class="price-container">
+          <span class="currency">$</span>
+          <span class="price-value" data-monthly="0" data-yearly="0">0</span>
+          <span class="billing-period">/month</span>
+        </div>
+        
+        <ul class="features-list">
+          <li>
+            <span class="bullet-check">✓</span>
+            AI Symptom Checker
+          </li>
+          <li>
+            <span class="bullet-check">✓</span>
+            Medicine Reminder
+          </li>
+          <li>
+            <span class="bullet-check">✓</span>
+            Health Dashboard
+          </li>
+          <li class="disabled">
+            <span class="bullet-check">✗</span>
+            Advanced Health Analytics
+          </li>
+          <li class="disabled">
+            <span class="bullet-check">✗</span>
+            Priority Doctor Booking
+          </li>
+        </ul>
+
+        <div class="pricing-cta-wrapper">
+          <a href="#contact" class="btn btn-secondary w-full">Start for Free</a>
+        </div>
+      </div>
+
+      <!-- 2. Premium Plan (Polarity Flipped - Featured) -->
+      <div class="pricing-card-featured dark-panel">
+        <div class="popular-badge">RECOMMENDED</div>
+        <div class="pricing-card-header">
+          <h3 class="plan-name text-white">Premium Plan</h3>
+          <p class="plan-tagline">Advanced AI analytics & priority consultations.</p>
+        </div>
+        <div class="price-container">
+          <span class="currency text-white">$</span>
+          <span class="price-value text-white" id="premiumPrice" data-monthly="19" data-yearly="15">19</span>
+          <span class="billing-period text-slate">/month</span>
+        </div>
+
+        <ul class="features-list featured-list">
+          <li>
+            <span class="bullet-check text-teal">✓</span>
+            Unlimited AI Consultations
+          </li>
+          <li>
+            <span class="bullet-check text-teal">✓</span>
+            Advanced Health Analytics
+          </li>
+          <li>
+            <span class="bullet-check text-teal">✓</span>
+            Unlimited Medical Records
+          </li>
+          <li>
+            <span class="bullet-check text-teal">✓</span>
+            Priority Doctor Booking
+          </li>
+          <li>
+            <span class="bullet-check text-teal">✓</span>
+            Smart Medicine Reminders
+          </li>
+        </ul>
+
+        <div class="pricing-cta-wrapper">
+          <a href="#contact" class="btn btn-accent w-full text-white">Go Premium</a>
+        </div>
+      </div>
+
+      <!-- 3. Family Plan -->
+      <div class="glass-card pricing-card">
+        <div class="pricing-card-header">
+          <h3 class="plan-name">Family Plan</h3>
+          <p class="plan-tagline">Complete monitoring for the whole household.</p>
+        </div>
+        <div class="price-container">
+          <span class="currency">$</span>
+          <span class="price-value" id="familyPrice" data-monthly="49" data-yearly="39">49</span>
+          <span class="billing-period">/month</span>
+        </div>
+
+        <ul class="features-list">
+          <li>
+            <span class="bullet-check">✓</span>
+            Up to 6 Family Members
+          </li>
+          <li>
+            <span class="bullet-check">✓</span>
+            Shared Medical Records
+          </li>
+          <li>
+            <span class="bullet-check">✓</span>
+            Family Health Monitoring
+          </li>
+          <li>
+            <span class="bullet-check">✓</span>
+            Emergency Alerts & SOS
+          </li>
+          <li>
+            <span class="bullet-check">✓</span>
+            Priority Doctor Booking
+          </li>
+        </ul>
+
+        <div class="pricing-cta-wrapper">
+          <a href="#contact" class="btn btn-secondary w-full">Choose Family</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing-section {
+    background-color: var(--color-canvas);
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto var(--space-4xl) auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section-eyebrow {
+    margin-bottom: var(--space-xs);
+  }
+
+  .section-title {
+    margin-bottom: var(--space-md);
+  }
+
+  .section-subtitle {
+    color: var(--color-body);
+    margin-bottom: var(--space-xl);
+  }
+
+  /* Monthly/Yearly Toggle */
+  .toggle-container {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-md);
+    background-color: var(--color-canvas-soft-2);
+    padding: 6px var(--space-md);
+    border-radius: var(--radius-pill);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .toggle-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-body);
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .toggle-label.active {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .discount-tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: white;
+    background-color: var(--color-accent);
+    padding: 2px 6px;
+    border-radius: var(--radius-full);
+  }
+
+  .billing-toggle {
+    width: 44px;
+    height: 24px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-primary);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+    transition: var(--transition-smooth);
+  }
+
+  .toggle-switch {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: var(--transition-smooth);
+  }
+
+  .billing-toggle.yearly .toggle-switch {
+    left: 22px;
+  }
+
+  /* Pricing Grid styling */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+    align-items: stretch;
+  }
+
+  .pricing-card {
+    border-radius: var(--radius-lg);
+    background-color: var(--color-canvas);
+    padding: var(--space-2xl) var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition-smooth);
+    border: 1px solid var(--color-canvas-soft-2);
+  }
+
+  .pricing-card-featured {
+    border-radius: var(--radius-lg);
+    background-color: var(--color-canvas-dark);
+    padding: var(--space-2xl) var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: var(--shadow-level-5), 0 20px 40px rgba(37, 99, 235, 0.08);
+    transform: scale(1.02);
+  }
+
+  .popular-badge {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: white;
+    background: var(--gradient-blue-teal);
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.05em;
+  }
+
+  .pricing-card-header {
+    margin-bottom: var(--space-lg);
+  }
+
+  .plan-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+    color: var(--color-ink);
+  }
+
+  .text-white {
+    color: white;
+  }
+
+  .plan-tagline {
+    font-size: 0.8rem;
+    color: var(--color-body);
+  }
+
+  .price-container {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: var(--space-xl);
+  }
+
+  .currency {
+    font-size: 1.5rem;
+    font-weight: 600;
+    align-self: flex-start;
+  }
+
+  .price-value {
+    font-size: 3rem;
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .billing-period {
+    font-size: 0.85rem;
+    color: var(--color-mute);
+    margin-left: var(--space-xxs);
+  }
+
+  .text-slate {
+    color: #64748b;
+  }
+
+  /* Feature Checklist */
+  .features-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-2xl);
+    flex-grow: 1;
+  }
+
+  .features-list li {
+    font-size: 0.875rem;
+    color: var(--color-body);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    text-align: left;
+  }
+
+  .featured-list li {
+    color: #cbd5e1; /* Slate-300 */
+  }
+
+  .bullet-check {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(20, 184, 166, 0.08);
+    color: var(--color-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .features-list li.disabled {
+    color: var(--color-mute);
+  }
+
+  .features-list li.disabled .bullet-check {
+    background-color: var(--color-canvas-soft-2);
+    color: var(--color-mute);
+  }
+
+  .pricing-cta-wrapper {
+    margin-top: auto;
+  }
+
+  .w-full {
+    width: 100%;
+  }
+
+  /* Responsive styling */
+  @media (max-width: 959px) {
+    .pricing-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+      max-width: 450px;
+      margin: 0 auto;
+    }
+
+    .pricing-card-featured {
+      transform: none; /* Align scaling */
+    }
+  }
+</style>
+
+<script>
+  const billingToggle = document.getElementById('billingToggle');
+  const premiumPrice = document.getElementById('premiumPrice');
+  const familyPrice = document.getElementById('familyPrice');
+  const labelMonthly = document.getElementById('labelMonthly');
+  const labelYearly = document.getElementById('labelYearly');
+
+  if (billingToggle && premiumPrice && familyPrice && labelMonthly && labelYearly) {
+    billingToggle.addEventListener('click', () => {
+      // Toggle Class
+      billingToggle.classList.toggle('yearly');
+      
+      const isYearly = billingToggle.classList.contains('yearly');
+      
+      if (isYearly) {
+        // Set values from data attributes
+        premiumPrice.innerText = premiumPrice.getAttribute('data-yearly') || '15';
+        familyPrice.innerText = familyPrice.getAttribute('data-yearly') || '39';
+        
+        labelMonthly.classList.remove('active');
+        labelYearly.classList.add('active');
+      } else {
+        premiumPrice.innerText = premiumPrice.getAttribute('data-monthly') || '19';
+        familyPrice.innerText = familyPrice.getAttribute('data-monthly') || '49';
+        
+        labelMonthly.classList.add('active');
+        labelYearly.classList.remove('active');
+      }
+    });
+  }
+</script>

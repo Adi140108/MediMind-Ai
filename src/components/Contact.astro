@@ -1,0 +1,815 @@
+---
+// Contact.astro
+---
+
+<section id="contact" class="section section-lg contact-section">
+  <!-- Glowing ambient light -->
+  <div class="contact-glow"></div>
+
+  <div class="container">
+    <div class="section-header">
+      <span class="caption-mono section-eyebrow">Consultation Portal</span>
+      <h2 class="display-lg section-title">Consult with our AI & team. Today.</h2>
+      <p class="body-lg section-subtitle">
+        Describe your symptoms to run an instant clinical AI check and forward the generated report to our medical specialists.
+      </p>
+    </div>
+
+    <div class="contact-grid">
+      <!-- Left Column: Form & Live Report Container -->
+      <div class="contact-interactive-panel">
+        
+        <!-- Live AI Health Report (Visible upon successful submission) -->
+        <div class="diagnostic-report-card hide" id="diagnosticReportCard">
+          <div class="report-header-badge">
+            <span class="badge-icon">✓</span>
+            <div>
+              <h4 class="report-badge-title">Live AI Vitals Check Complete</h4>
+              <p class="body-sm text-slate">Report logged & forwarded to on-call specialist.</p>
+            </div>
+          </div>
+
+          <div class="report-content glass-card">
+            <!-- Patient Banner -->
+            <div class="report-meta">
+              <div>
+                <span class="report-meta-label">Patient Name</span>
+                <span class="report-meta-val" id="reportPatientName">John Doe</span>
+              </div>
+              <div>
+                <span class="report-meta-label">Forwarding Email</span>
+                <span class="report-meta-val" id="reportPatientEmail">john@example.com</span>
+              </div>
+            </div>
+
+            <!-- Diagnosis Row -->
+            <div class="report-diagnosis-block">
+              <div class="report-diagnosis-top">
+                <span class="caption-mono label-teal">AI Preliminary Indication</span>
+                <div class="badge" id="reportUrgency">Urgency: Moderate</div>
+              </div>
+              <h3 class="report-suspicion-title" id="reportSuspicionTitle">Acute Upper Respiratory Response</h3>
+              <p class="body-sm report-suspicion-desc" id="reportSuspicionDesc">
+                Symptoms indicate minor nasopharyngeal irritation, commonly correlated with standard seasonal rhinitis.
+              </p>
+            </div>
+
+            <!-- Action Steps -->
+            <div class="report-actions-block">
+              <span class="caption-mono font-xs">Recommended Actions</span>
+              <ul class="report-actions-list" id="reportActionsList">
+                <li>Rest and keep hydrated.</li>
+                <li>Monitor temperature twice daily.</li>
+              </ul>
+            </div>
+
+            <!-- Action footer info -->
+            <div class="report-security-footer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span class="caption">256-bit Encrypted HIPAA Transmittal Record ID: #MM-790432</span>
+            </div>
+          </div>
+
+          <!-- Reset Button to run another check -->
+          <button class="btn btn-secondary w-full" id="resetContactFormBtn">
+            Check Another Symptom
+          </button>
+        </div>
+
+        <!-- Scanning Loader Overlay (Hidden by default) -->
+        <div class="scanning-loader-wrapper hide" id="scanningLoader">
+          <div class="loader-spinner"></div>
+          <h4 class="loader-heading">MediMind AI is parsing symptoms...</h4>
+          <div class="loader-steps font-mono text-slate">
+            <div class="loader-step active" id="lStep1">● Analyzing description keywords...</div>
+            <div class="loader-step" id="lStep2">○ Running diagnostic database comparison...</div>
+            <div class="loader-step" id="lStep3">○ Dispatching encrypted medical logs...</div>
+          </div>
+        </div>
+
+        <!-- Consultation Form -->
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="name" class="form-label">Full Name</label>
+              <input type="text" id="name" required class="form-control" placeholder="Jane Doe" />
+            </div>
+            <div class="form-group flex-1">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" id="email" required class="form-control" placeholder="jane@example.com" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message" class="form-label">Describe your symptoms for a Live AI Check</label>
+            <textarea id="message" required class="form-control message-textarea" placeholder="Describe symptoms in detail. Example: 'Fever for 2 days, sharp headache, runny nose' or 'Tight chest and shortness of breath'"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg justify-center w-full">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+            </svg>
+            Run Live AI Diagnostic & Send
+          </button>
+        </form>
+
+        <!-- Small Contact Details underneath -->
+        <div class="contact-mini-info-row">
+          <div class="mini-info-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <a href="tel:+18005550199">+1 (800) 555-0199</a>
+          </div>
+          <div class="mini-info-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <a href="mailto:support@medimind.ai">support@medimind.ai</a>
+          </div>
+          <div class="mini-info-item">
+            <span class="caption-mono font-xs">Social:</span>
+            <div class="mini-socials">
+              <a href="#">LN</a>
+              <a href="#">TW</a>
+              <a href="#">GH</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Clinic Location Map Visual -->
+      <div class="contact-map-side">
+        <div class="glass-card map-container">
+          <div class="map-grid-mesh"></div>
+          
+          <!-- Pulsing Map pin -->
+          <div class="map-pin">
+            <span class="pin-pulse"></span>
+            <div class="pin-dot"></div>
+            <!-- Tooltip -->
+            <div class="map-tooltip glass-panel">
+              <span class="tooltip-eyebrow caption-mono">Clinical HQ</span>
+              <h5 class="tooltip-title">MediMind Plaza</h5>
+              <p class="tooltip-text">784 Medical Plaza, SF, CA</p>
+            </div>
+          </div>
+          
+          <div class="map-overlay-footer">
+            <span class="caption-mono font-xs">HQ Coordinates: 37.7749° N, 122.4194° W</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-section {
+    background-color: var(--color-canvas);
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-glow {
+    position: absolute;
+    top: 50%;
+    left: -10%;
+    width: 250px;
+    height: 250px;
+    background-color: var(--color-primary);
+    filter: blur(120px);
+    opacity: 0.08;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto var(--space-4xl) auto;
+  }
+
+  .section-eyebrow {
+    margin-bottom: var(--space-xs);
+    display: block;
+  }
+
+  .section-title {
+    margin-bottom: var(--space-md);
+  }
+
+  .section-subtitle {
+    color: var(--color-body);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-4xl);
+    align-items: stretch;
+    position: relative;
+    z-index: 5;
+  }
+
+  /* Interactive Form Column */
+  .contact-interactive-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-xl);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    text-align: left;
+  }
+
+  .form-row {
+    display: flex;
+    gap: var(--space-md);
+  }
+
+  .message-textarea {
+    min-height: 140px;
+  }
+
+  .flex-1 {
+    flex: 1;
+  }
+
+  /* Micro Info List underneath */
+  .contact-mini-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--color-canvas-soft-2);
+    padding-top: var(--space-md);
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+
+  .mini-info-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+  }
+
+  .mini-info-item svg {
+    color: var(--color-primary);
+  }
+
+  .mini-info-item a {
+    color: var(--color-body);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+  }
+
+  .mini-info-item a:hover {
+    color: var(--color-primary);
+  }
+
+  .mini-socials {
+    display: inline-flex;
+    gap: 8px;
+    margin-left: 4px;
+  }
+
+  .mini-socials a {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--color-mute);
+    background-color: var(--color-canvas-soft);
+    padding: 2px 6px;
+    border-radius: var(--radius-xs);
+    transition: var(--transition-smooth);
+    border: 1px solid var(--color-canvas-soft-2);
+  }
+
+  .mini-socials a:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    background-color: rgba(37, 99, 235, 0.03);
+  }
+
+  /* Diagnostic Report card rendering in-place */
+  .diagnostic-report-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    animation: reportFadeIn 0.4s ease-out;
+  }
+
+  .report-header-badge {
+    display: flex;
+    gap: var(--space-md);
+    background-color: rgba(20, 184, 166, 0.08);
+    border: 1px solid rgba(20, 184, 166, 0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    text-align: left;
+  }
+
+  .badge-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .report-badge-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #0f766e; /* Deep teal */
+  }
+
+  .report-content {
+    padding: var(--space-xl);
+    background-color: var(--color-canvas-soft);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    border-color: var(--color-canvas-soft-2);
+    box-shadow: var(--shadow-level-3);
+  }
+
+  .report-meta {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-md);
+    border-bottom: 1px dashed var(--color-canvas-soft-2);
+    padding-bottom: var(--space-md);
+    text-align: left;
+  }
+
+  .report-meta-label {
+    font-size: 0.65rem;
+    color: var(--color-mute);
+    display: block;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+  }
+
+  .report-meta-val {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .report-diagnosis-block {
+    text-align: left;
+  }
+
+  .report-diagnosis-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xs);
+  }
+
+  .report-suspicion-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin-bottom: var(--space-xs);
+  }
+
+  .report-suspicion-desc {
+    color: var(--color-body);
+    line-height: 1.5;
+  }
+
+  .report-actions-block {
+    text-align: left;
+  }
+
+  .report-actions-list {
+    margin-top: var(--space-xs);
+    padding-left: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .report-actions-list li {
+    font-size: 0.8rem;
+    color: var(--color-body);
+    line-height: 1.4;
+  }
+
+  .report-security-footer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-mute);
+    border-top: 1px solid var(--color-canvas-soft-2);
+    padding-top: var(--space-md);
+  }
+
+  .report-security-footer svg {
+    color: var(--color-accent);
+  }
+
+  /* Scanning Loader overlay */
+  .scanning-loader-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3xl) 0;
+    gap: var(--space-md);
+  }
+
+  .loader-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid rgba(37, 99, 235, 0.1);
+    border-top: 3px solid var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .loader-heading {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .loader-steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    font-size: 0.75rem;
+    text-align: left;
+    width: 280px;
+  }
+
+  .loader-step.active {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  /* High Tech Location Map Visual */
+  .contact-map-side {
+    display: flex;
+  }
+
+  .map-container {
+    width: 100%;
+    min-height: 340px;
+    position: relative;
+    background-color: #0f172a; /* Dark map canvas */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Map lines and coordinate grid simulation */
+  .map-grid-mesh {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px),
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 20px 20px, 40px 40px, 40px 40px;
+    z-index: 1;
+  }
+
+  .map-pin {
+    position: absolute;
+    top: 45%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+  }
+
+  .pin-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--color-accent);
+  }
+
+  .pin-pulse {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid var(--color-accent);
+    opacity: 0;
+    animation: pinRadar 2s ease-out infinite;
+  }
+
+  .map-tooltip {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    background: rgba(15, 23, 42, 0.95);
+    border-color: rgba(255, 255, 255, 0.08);
+    width: 180px;
+    text-align: left;
+    box-shadow: var(--shadow-level-3);
+  }
+
+  .tooltip-eyebrow {
+    font-size: 0.6rem;
+    color: var(--color-accent);
+    margin-bottom: 2px;
+    display: block;
+  }
+
+  .tooltip-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 2px;
+  }
+
+  .tooltip-text {
+    font-size: 0.65rem;
+    color: #94a3b8;
+    line-height: 1.3;
+  }
+
+  .map-overlay-footer {
+    position: relative;
+    z-index: 2;
+    padding: var(--space-md);
+    color: #64748b;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(15, 23, 42, 0.8);
+    text-align: center;
+  }
+
+  /* Utility classes */
+  .hide {
+    display: none !important;
+  }
+
+  .urgency-low {
+    background-color: rgba(16, 185, 129, 0.08) !important;
+    color: #10b981 !important;
+    border-color: rgba(16, 185, 129, 0.1) !important;
+  }
+
+  .urgency-moderate {
+    background-color: rgba(245, 158, 11, 0.08) !important;
+    color: #d97706 !important;
+    border-color: rgba(245, 158, 11, 0.1) !important;
+  }
+
+  .urgency-high {
+    background-color: rgba(239, 68, 68, 0.08) !important;
+    color: #ef4444 !important;
+    border-color: rgba(239, 68, 68, 0.1) !important;
+  }
+
+  @keyframes pinRadar {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes reportFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive styles */
+  @media (max-width: 959px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .contact-mini-info-row {
+      flex-direction: column;
+      gap: var(--space-sm);
+      align-items: flex-start;
+    }
+  }
+</style>
+
+<script>
+  // Live diagnostic contact form scripts
+  const contactForm = document.getElementById('contactForm');
+  const scanningLoader = document.getElementById('scanningLoader');
+  const diagnosticReportCard = document.getElementById('diagnosticReportCard');
+  
+  // Input fields
+  const inputName = document.getElementById('name') as HTMLInputElement;
+  const inputEmail = document.getElementById('email') as HTMLInputElement;
+  const inputMessage = document.getElementById('message') as HTMLTextAreaElement;
+
+  // Report fields
+  const reportPatientName = document.getElementById('reportPatientName');
+  const reportPatientEmail = document.getElementById('reportPatientEmail');
+  const reportUrgency = document.getElementById('reportUrgency');
+  const reportSuspicionTitle = document.getElementById('reportSuspicionTitle');
+  const reportSuspicionDesc = document.getElementById('reportSuspicionDesc');
+  const reportActionsList = document.getElementById('reportActionsList');
+  const resetContactFormBtn = document.getElementById('resetContactFormBtn');
+
+  // Loader sub-steps
+  const lStep1 = document.getElementById('lStep1');
+  const lStep2 = document.getElementById('lStep2');
+  const lStep3 = document.getElementById('lStep3');
+
+  if (contactForm && scanningLoader && diagnosticReportCard) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const nameVal = inputName.value.trim();
+      const emailVal = inputEmail.value.trim();
+      const messageVal = inputMessage.value.trim();
+
+      if (!nameVal || !emailVal || !messageVal) return;
+
+      // 1. Hide form & Show Loader
+      contactForm.classList.add('hide');
+      scanningLoader.classList.remove('hide');
+
+      // 2. Run loading step animation sequence
+      runLoaderSteps(nameVal, emailVal, messageVal);
+    });
+  }
+
+  function runLoaderSteps(name: string, email: string, symptoms: string) {
+    if (!lStep1 || !lStep2 || !lStep3 || !scanningLoader || !diagnosticReportCard) return;
+
+    // Reset step styles
+    lStep1.className = "loader-step active";
+    lStep2.className = "loader-step";
+    lStep3.className = "loader-step";
+    lStep1.innerHTML = "● Analyzing description keywords...";
+    lStep2.innerHTML = "○ Running diagnostic database comparison...";
+    lStep3.innerHTML = "○ Dispatching encrypted medical logs...";
+
+    // Step 2 starts
+    setTimeout(() => {
+      lStep1.className = "loader-step text-teal";
+      lStep1.innerHTML = "✓ Symptom keywords analyzed";
+      lStep2.className = "loader-step active";
+      lStep2.innerHTML = "● Running diagnostic database comparison...";
+    }, 600);
+
+    // Step 3 starts
+    setTimeout(() => {
+      lStep2.className = "loader-step text-teal";
+      lStep2.innerHTML = "✓ Clinical databases compared";
+      lStep3.className = "loader-step active";
+      lStep3.innerHTML = "● Dispatching encrypted medical logs...";
+    }, 1200);
+
+    // Completion
+    setTimeout(() => {
+      lStep3.className = "loader-step text-teal";
+      lStep3.innerHTML = "✓ Medical log transmittal successful";
+      
+      // Populate and compile report details
+      generateLiveReport(name, email, symptoms);
+
+      // Hide Loader & Show Report
+      scanningLoader.classList.add('hide');
+      diagnosticReportCard.classList.remove('hide');
+    }, 1800);
+  }
+
+  function generateLiveReport(name: string, email: string, symptoms: string) {
+    if (!reportPatientName || !reportPatientEmail || !reportUrgency || !reportSuspicionTitle || !reportSuspicionDesc || !reportActionsList) return;
+
+    // Populate patient meta
+    reportPatientName.innerText = name;
+    reportPatientEmail.innerText = email;
+
+    const query = symptoms.toLowerCase();
+    
+    // Default Report metrics
+    let urgency = "Moderate";
+    let urgencyClass = "urgency-moderate";
+    let title = "Viral Upper Respiratory Irritation";
+    let desc = "Symptoms hint at early stages of upper respiratory irritation. Our clinical datasets suggest seasonal rhinitis or pharyngeal swelling.";
+    let steps = [
+      "Keep hydrated and rest.",
+      "Track your core body temperature twice daily.",
+      "Consult a doctor if symptoms persist past 3 days."
+    ];
+
+    // Cardiopulmonary Emergency check
+    if (query.includes('chest') || query.includes('breath') || query.includes('arm') || query.includes('tightness') || query.includes('heart')) {
+      urgency = "High Emergency";
+      urgencyClass = "urgency-high";
+      title = "Potential Acute Cardiac Tension";
+      desc = "Cardiopulmonary symptoms logged. Chest pressure and respiratory distress necessitate urgent physical assessment to rule out severe conditions.";
+      steps = [
+        "Go to the nearest emergency room immediately.",
+        "Sit upright, loosen any tight clothing, and maintain breathing cycles.",
+        "Avoid any sudden movements or physical strain."
+      ];
+    } 
+    // Neurological/Fever check
+    else if (query.includes('headache') || query.includes('migraine') || query.includes('fever') || query.includes('temperature')) {
+      urgency = "Moderate";
+      urgencyClass = "urgency-moderate";
+      title = "Migraine & Febrile Response Syndrome";
+      desc = "Systemic symptoms suggest a tension migraine accompanied by temperature fluctuations. Could indicate mild viral infection.";
+      steps = [
+        "Rest in a quiet, dark, air-cooled room.",
+        "Use cold forehead compresses and take standard paracetamol as directed.",
+        "Stay hydrated and avoid high screen exposure."
+      ];
+    } 
+    // Common cold check
+    else if (query.includes('cough') || query.includes('cold') || query.includes('nose') || query.includes('congestion') || query.includes('sore throat')) {
+      urgency = "Low";
+      urgencyClass = "urgency-low";
+      title = "Seasonal Nasopharyngitis (Common Cold)";
+      desc = "Classic viral common cold profile. Correlates heavily with nasal tissue congestion and standard inflammatory recovery loops.";
+      steps = [
+        "Inhale steam or take warm showers to reduce nasal blockage.",
+        "Use saline nasal sprays or gargle warm salt water.",
+        "Maintain normal rest; recovery averages 7 to 10 days."
+      ];
+    }
+    // Gastrointestinal check
+    else if (query.includes('stomach') || query.includes('belly') || query.includes('abdominal') || query.includes('nausea') || query.includes('vomit')) {
+      urgency = "Moderate";
+      urgencyClass = "urgency-moderate";
+      title = "Acute Gastroenteritis / Gastric Irritation";
+      desc = "Localized abdominal reports suggest gastric membrane irritation. Monitor closely for symptoms shifting to lower right abdomen.";
+      steps = [
+        "Sip clear liquids (water, clear broths, electrolyte solutions).",
+        "Introduce bland foods gradually (bananas, rice, applesauce).",
+        "Seek emergency consult if localized lower right abdominal pain worsens."
+      ];
+    }
+
+    // Bind inputs
+    reportUrgency.innerText = `Urgency: ${urgency}`;
+    reportUrgency.className = `badge ${urgencyClass}`;
+    reportSuspicionTitle.innerText = title;
+    reportSuspicionDesc.innerText = desc;
+
+    // Build steps list
+    reportActionsList.innerHTML = '';
+    steps.forEach(step => {
+      const li = document.createElement('li');
+      li.innerText = step;
+      reportActionsList.appendChild(li);
+    });
+  }
+
+  // Handle Form Resets
+  if (resetContactFormBtn && contactForm && diagnosticReportCard) {
+    resetContactFormBtn.addEventListener('click', () => {
+      diagnosticReportCard.classList.add('hide');
+      contactForm.classList.remove('hide');
+      
+      // Clear fields
+      if (inputName) inputName.value = '';
+      if (inputEmail) inputEmail.value = '';
+      if (inputMessage) inputMessage.value = '';
+    });
+  }
+</script>

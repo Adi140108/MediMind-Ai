@@ -1,0 +1,184 @@
+---
+// Multi-page Clinical Header component
+---
+
+<header class="header sticky-nav">
+  <div class="container nav-container">
+    <!-- Brand Logo -->
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <img src="logo.png" alt="MediMind AI Logo" style="width: 100%; height: 100%; object-fit: contain;" />
+        <span class="logo-pulse"></span>
+      </div>
+      <span class="logo-text">MediMind <span class="text-teal">AI</span></span>
+    </a>
+
+    <!-- Navigation links for all pages -->
+    <nav class="nav-desktop">
+      <a href="index.html" class="nav-link" id="nav-symptom">Symptom Checker</a>
+      <a href="dashboard.html" class="nav-link" id="nav-dashboard">Vitals Dashboard</a>
+      <a href="doctors.html" class="nav-link" id="nav-doctors">Specialist Booking</a>
+      <a href="records.html" class="nav-link" id="nav-records">Secure Records</a>
+    </nav>
+
+    <!-- Active Engine Status Badge -->
+    <div class="engine-status">
+      <span class="status-dot"></span>
+      <span class="caption-mono font-xs status-text">Clinical AI Engine: Active</span>
+    </div>
+  </div>
+</header>
+
+<style>
+  .sticky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(241, 245, 249, 0.6);
+    box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.01);
+  }
+
+  .nav-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--color-ink);
+    letter-spacing: -0.02em;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .logo-icon svg {
+    width: 18px;
+    height: 18px;
+    transform: rotate(45deg);
+  }
+
+  .logo-pulse {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+    border: 2px solid var(--color-canvas);
+  }
+
+  .logo-text {
+    font-family: var(--font-sans);
+  }
+
+  .text-teal {
+    color: var(--color-accent);
+  }
+
+  /* Desktop Nav Links */
+  .nav-desktop {
+    display: flex;
+    gap: var(--space-xs);
+  }
+
+  .nav-link {
+    text-decoration: none;
+    color: var(--color-body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    transition: var(--transition-smooth);
+  }
+
+  .nav-link:hover {
+    color: var(--color-primary);
+    background-color: rgba(37, 99, 235, 0.04);
+  }
+
+  /* Active styling logic managed on client by matching path */
+  .nav-link.active {
+    background-color: rgba(37, 99, 235, 0.08);
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  /* Engine Status */
+  .engine-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    background-color: rgba(20, 184, 166, 0.06);
+    border: 1px solid rgba(20, 184, 166, 0.15);
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+    animation: statusPulse 1.8s infinite;
+  }
+
+  .status-text {
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+
+  @keyframes statusPulse {
+    0% { transform: scale(0.85); opacity: 0.6; }
+    50% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(0.85); opacity: 0.6; }
+  }
+
+  /* Collapsing response */
+  @media (max-width: 768px) {
+    .nav-desktop {
+      display: none; /* In micro site we hide nav on mobile for clean flex layout */
+    }
+  }
+</style>
+
+<script>
+  // Dynamic navigation link highlight based on window.location path
+  const path = window.location.pathname;
+  const page = path.split("/").pop();
+
+  const symptomLink = document.getElementById('nav-symptom');
+  const dashboardLink = document.getElementById('nav-dashboard');
+  const doctorsLink = document.getElementById('nav-doctors');
+  const recordsLink = document.getElementById('nav-records');
+
+  if (page === 'dashboard.html') {
+    dashboardLink?.classList.add('active');
+  } else if (page === 'doctors.html') {
+    doctorsLink?.classList.add('active');
+  } else if (page === 'records.html') {
+    recordsLink?.classList.add('active');
+  } else {
+    symptomLink?.classList.add('active');
+  }
+</script>

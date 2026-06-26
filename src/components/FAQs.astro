@@ -1,0 +1,215 @@
+---
+// FAQs.astro
+---
+
+<section id="faqs" class="section section-lg faqs-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="caption-mono section-eyebrow">Support Portal</span>
+      <h2 class="display-lg section-title">Common questions. Answered.</h2>
+      <p class="body-lg section-subtitle">
+        Can't find the answer you are looking for? Reach out to our clinical support team using the form below.
+      </p>
+    </div>
+
+    <!-- Accordion Accordion Wrapper -->
+    <div class="faq-accordion-wrapper">
+      <!-- FAQ 1 -->
+      <details class="faq-item glass-card" open>
+        <summary class="faq-summary">
+          <span class="faq-question">How accurate is the AI Symptom Checker?</span>
+          <span class="faq-chevron-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="faq-content">
+          <p class="body-sm faq-answer">
+            Our AI Symptom Checker is trained on clinical datasets and validated by certified medical professionals. It achieves a 95% classification accuracy in identifying symptoms. However, please note that it is an informational guidance tool designed to assist your awareness and should never replace emergency professional medical diagnosis.
+          </p>
+        </div>
+      </details>
+
+      <!-- FAQ 2 -->
+      <details class="faq-item glass-card">
+        <summary class="faq-summary">
+          <span class="faq-question">Can I upload my medical reports?</span>
+          <span class="faq-chevron-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="faq-content">
+          <p class="body-sm faq-answer">
+            Yes, you can upload PDFs, images, or scanned copies of prescriptions, laboratory reports, and vaccination records. MediMind AI uses advanced OCR technology to scan, translate, and securely log key metrics directly onto your interactive health dashboard.
+          </p>
+        </div>
+      </details>
+
+      <!-- FAQ 3 -->
+      <details class="faq-item glass-card">
+        <summary class="faq-summary">
+          <span class="faq-question">Is my health data secure?</span>
+          <span class="faq-chevron-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="faq-content">
+          <p class="body-sm faq-answer">
+            Security is our absolute priority. All patient data is fully encrypted at rest with AES-256 keys and in transit via TLS. We are strictly compliant with HIPAA and GDPR standards, maintaining a strict privacy policy which guarantees that we never sell or share your data with insurance companies or brokers.
+          </p>
+        </div>
+      </details>
+
+      <!-- FAQ 4 -->
+      <details class="faq-item glass-card">
+        <summary class="faq-summary">
+          <span class="faq-question">Can I book appointments with specialists?</span>
+          <span class="faq-chevron-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="faq-content">
+          <p class="body-sm faq-answer">
+            Yes. MediMind AI is integrated with nationwide specialist directories. You can search, filter, and match with certified doctors by specialty, distance, language, rating, and availability. You can book digital telehealth consultations or in-person visits directly within our app.
+          </p>
+        </div>
+      </details>
+
+      <!-- FAQ 5 -->
+      <details class="faq-item glass-card">
+        <summary class="faq-summary">
+          <span class="faq-question">Does the app send medicine reminders?</span>
+          <span class="faq-chevron-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="faq-content">
+          <p class="body-sm faq-answer">
+            Absolutely. You can schedule custom dosages, medication timings, and recurrence rules. The platform pushes smart notification reminders to your mobile device or wearable smartwatch, monitors daily adherence statistics, and supports automatic refill triggers when doses run low.
+          </p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faqs-section {
+    background-color: var(--color-canvas-soft);
+    border-bottom: 1px solid var(--color-canvas-soft-2);
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto var(--space-4xl) auto;
+  }
+
+  .section-eyebrow {
+    margin-bottom: var(--space-xs);
+    display: block;
+  }
+
+  .section-title {
+    margin-bottom: var(--space-md);
+  }
+
+  .section-subtitle {
+    color: var(--color-body);
+  }
+
+  .faq-accordion-wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .faq-item {
+    border-radius: var(--radius-lg);
+    background-color: var(--color-canvas);
+    transition: var(--transition-smooth);
+    border: 1px solid var(--color-canvas-soft-2);
+    overflow: hidden;
+  }
+
+  .faq-item:hover {
+    background-color: var(--color-canvas);
+  }
+
+  /* Custom Details reset */
+  .faq-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-lg);
+    cursor: pointer;
+    list-style: none; /* Hide default list marker */
+    user-select: none;
+    outline: none;
+  }
+
+  /* Hide default marker in Safari */
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    text-align: left;
+  }
+
+  .faq-chevron-icon {
+    display: flex;
+    align-items: center;
+    color: var(--color-body);
+    transition: transform 0.25s ease;
+  }
+
+  /* Chevron rotation on details open */
+  details[open] .faq-chevron-icon {
+    transform: rotate(180deg);
+  }
+
+  .faq-content {
+    border-top: 1px solid var(--color-canvas-soft-2);
+    padding: var(--space-lg);
+    background-color: var(--color-canvas-soft);
+    animation: slideDown 0.2s ease-out;
+  }
+
+  .faq-answer {
+    color: var(--color-body);
+    line-height: 1.5;
+    font-size: 0.85rem;
+    text-align: left;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive styles */
+  @media (max-width: 600px) {
+    .faq-summary {
+      padding: var(--space-md);
+    }
+
+    .faq-content {
+      padding: var(--space-md);
+    }
+  }
+</style>
